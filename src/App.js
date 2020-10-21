@@ -1,35 +1,54 @@
 import React from 'react';
+import Dropzone from 'react-dropzone';
 import logo from './logo.svg';
 import './App.css';
 
 class App extends React.Component {
   async componentDidMount() {
     await this.loadWasm();
-    console.log(this.state.wasm.run());
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.loadFileBytes = this.loadFileBytes.bind(this);
   }
 
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Dropzone onDrop={this.loadFileBytes}>
+          {({getRootProps, getInputProps}) => (
+            <section>
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <p>Drag 'n' drop some files here, or click to select files</p>
+              </div>
+            </section>
+          )}
+        </Dropzone>
       </div>
     );
   }
 
-  loadWasm = async () => {
+  loadFileBytes(acceptedFiles) {
+    acceptedFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.onabort = () => console.log("File was aborted");
+      reader.onerror = () => console.log("Error reading the file");
+      reader.onload = () => {
+        const buffer = reader.result;
+        var array = new Uint8Array(buffer);
+        console.log(array);
+        console.log(array.length);
+        this.state.wasm.run(array);
+      };
+
+      reader.readAsArrayBuffer(file);
+    });
+  };
+
+  async loadWasm() {
     try {
       const wasm = await import("caklimas-rust-gameboy");
       this.setState({ wasm });
