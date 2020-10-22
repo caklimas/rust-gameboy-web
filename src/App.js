@@ -9,8 +9,7 @@ class App extends React.Component {
   }
 
   constructor(props) {
-    super(props);
-
+    super();
     this.loadFileBytes = this.loadFileBytes.bind(this);
   }
 
@@ -39,9 +38,9 @@ class App extends React.Component {
       reader.onload = () => {
         const buffer = reader.result;
         var array = new Uint8Array(buffer);
-        console.log(array);
-        console.log(array.length);
-        this.state.wasm.run(array);
+        let gb = this.state.wasm.run(array);
+        console.log(gb);
+        console.log(this.state.wasm.get_gameboy(gb));
       };
 
       reader.readAsArrayBuffer(file);
