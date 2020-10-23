@@ -1,6 +1,5 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends React.Component {
@@ -11,6 +10,10 @@ class App extends React.Component {
   constructor(props) {
     super();
     this.loadFileBytes = this.loadFileBytes.bind(this);
+    this.log_number = this.log_number.bind(this);
+    this.state = {
+      gb: null
+    };
   }
 
   render() {
@@ -26,6 +29,7 @@ class App extends React.Component {
             </section>
           )}
         </Dropzone>
+        <button disabled={!this.state.gb} onClick={this.log_number}>Get Number</button>
       </div>
     );
   }
@@ -39,13 +43,21 @@ class App extends React.Component {
         const buffer = reader.result;
         var array = new Uint8Array(buffer);
         let gb = this.state.wasm.run(array);
-        console.log(gb);
-        console.log(this.state.wasm.get_gameboy(gb));
+        this.setState({ gb }, () => alert("Loaded file"));
       };
 
       reader.readAsArrayBuffer(file);
     });
   };
+
+  log_number() {
+    if (this.state.gb) {
+      const screen = this.state.wasm.clock_frame(this.state.gb);
+      console.log(screen.length);
+    } else {
+      alert("No file loaded");
+    }
+  }
 
   async loadWasm() {
     try {
