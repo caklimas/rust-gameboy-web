@@ -1,6 +1,11 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import './App.css';
+import Canvas from './Canvas';
+
+const pixel_size = 3;
+const gameboy_width = 160 * pixel_size;
+const gameboy_height = 144 * pixel_size;
 
 class App extends React.Component {
   async componentDidMount() {
@@ -29,7 +34,7 @@ class App extends React.Component {
             </section>
           )}
         </Dropzone>
-        <button disabled={!this.state.gb} onClick={this.log_number}>Get Number</button>
+        <Canvas width={gameboy_width} height={gameboy_height}></Canvas>
       </div>
     );
   }
