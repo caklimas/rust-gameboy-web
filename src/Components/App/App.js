@@ -1,21 +1,24 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import './App.css';
-import Canvas from './Canvas';
+import Canvas from '../Canvas/Canvas';
+import loadWasm from '../../Helpers/wasm';
 
-const pixel_size = 3;
+const pixel_size = 1;
 const gameboy_width = 160 * pixel_size;
 const gameboy_height = 144 * pixel_size;
 
 class App extends React.Component {
   async componentDidMount() {
-    await this.loadWasm();
+    const wasm = await loadWasm();
+    this.setState({
+      wasm
+    });
   }
 
   constructor(props) {
     super();
     this.loadFileBytes = this.loadFileBytes.bind(this);
-    this.log_number = this.log_number.bind(this);
     this.state = {
       gb: null
     };
@@ -29,12 +32,12 @@ class App extends React.Component {
             <section>
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
-                <p>Drag 'n' drop some files here, or click to select files</p>
+                <p>Drop Gameboy ROM to play!</p>
               </div>
             </section>
           )}
         </Dropzone>
-        <Canvas width={gameboy_width} height={gameboy_height}></Canvas>
+        <Canvas width={gameboy_width} height={gameboy_height} gb={this.state.gb}></Canvas>
       </div>
     );
   }
@@ -48,29 +51,11 @@ class App extends React.Component {
         const buffer = reader.result;
         var array = new Uint8Array(buffer);
         let gb = this.state.wasm.run(array);
-        this.setState({ gb }, () => alert("Loaded file"));
+        this.setState({ gb });
       };
 
       reader.readAsArrayBuffer(file);
     });
-  };
-
-  log_number() {
-    if (this.state.gb) {
-      const screen = this.state.wasm.clock_frame(this.state.gb);
-      console.log(screen.length);
-    } else {
-      alert("No file loaded");
-    }
-  }
-
-  async loadWasm() {
-    try {
-      const wasm = await import("caklimas-rust-gameboy");
-      this.setState({ wasm });
-    } catch (err) {
-      console.error(`Unexpected error in loadWasm. [Message: ${err.message}]`);
-    }
   };
 }
 
