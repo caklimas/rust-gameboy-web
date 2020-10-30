@@ -1,9 +1,22 @@
 import React from 'react';
 import chunk from 'chunk';
 import './Canvas.css';
-import loadWasm from '../../Helpers/wasm';
+import { RustGameboy, loadWasm } from '../../Helpers/wasm';
 
-class Canvas extends React.Component {
+interface CanvasProps {
+    gameboy_pointer: number,
+    width: number,
+    height: number
+}
+
+interface CanvasState {
+    wasm: RustGameboy
+}
+
+class Canvas extends React.Component<CanvasProps, CanvasState> {
+    private canvas: any;
+    private interval_id: number;
+
     async componentDidMount() {
         const wasm = await loadWasm();
         this.setState({
@@ -11,8 +24,8 @@ class Canvas extends React.Component {
         }, () => console.log('Loaded WASM'));
     }
 
-    componentDidUpdate(prevProps) {
-        if (!prevProps.gb && !!this.props.gb) {
+    componentDidUpdate(prevProps: CanvasProps) {
+        if (!prevProps.gameboy_pointer && !!this.props.gameboy_pointer) {
             console.log('Loaded ROM');
             this.interval_id = window.setInterval(() => window.requestAnimationFrame(this.updateCanvas), 16);
         }
@@ -23,32 +36,37 @@ class Canvas extends React.Component {
             window.clearInterval(this.interval_id);
     }
 
-    constructor(props) {
+    constructor(props: CanvasProps) {
         super(props);
 
         this.canvas = null;
-        this.interval_id = null;
+        this.interval_id = 0;
         this.setCanvasRef = this.setCanvasRef.bind(this);
         this.updateCanvas = this.updateCanvas.bind(this);
     }
 
     render() {
         return (
-            <canvas className="gameboy" ref={this.setCanvasRef} width={this.props.width} height={this.props.height}></canvas>
+            <canvas
+                className="gameboy"
+                ref={this.setCanvasRef}
+                width={this.props.width}
+                height={this.props.height} 
+            />
         );
     }
 
-    setCanvasRef(element) {
+    setCanvasRef(element: any) {
         if (!element)
             return;
         this.canvas = element;
     }
 
     updateCanvas() {
-        if (!this.canvas || !this.props.gb)
+        if (!this.canvas || !this.props.gameboy_pointer)
             return;
 
-        const frame = this.state.wasm.clock_frame(this.props.gb);
+        const frame = this.state.wasm.clock_frame(this.props.gameboy_pointer);
         const chunked = chunk(frame, 3);
         const ctx = this.canvas.getContext('2d');
         const imageData = ctx.createImageData(this.props.width, this.props.height);
