@@ -25,7 +25,7 @@ class Canvas extends React.Component<CanvasProps, CanvasState> {
     }
 
     componentDidUpdate(prevProps: CanvasProps) {
-        if (!prevProps.gameboy_pointer && !!this.props.gameboy_pointer) {
+        if (!!this.props.gameboy_pointer) {
             console.log('Loaded ROM');
             this.interval_id = window.setInterval(() => window.requestAnimationFrame(this.updateCanvas), 16);
         }

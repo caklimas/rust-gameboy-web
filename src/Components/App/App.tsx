@@ -33,18 +33,36 @@ class App extends React.Component<{}, AppState> {
     render() {
         return (
         <div className="App">
-            <Dropzone onDrop={this.loadFileBytes}>
-            {({getRootProps, getInputProps}) => (
-                <section>
-                <div {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    <p>Drop Gameboy ROM to play!</p>
-                </div>
-                </section>
-            )}
-            </Dropzone>
-            <Canvas width={gameboy_width} height={gameboy_height} gameboy_pointer={this.state.gameboy_pointer}></Canvas>
+            { this.renderDropzone() }
+            { this.renderCanvas() }
         </div>
+        );
+    }
+
+    renderDropzone() {
+        if (!!this.state.gameboy_pointer)
+            return undefined;
+
+        return (
+            <Dropzone onDrop={this.loadFileBytes}>
+                {({getRootProps, getInputProps}) => (
+                    <section>
+                    <div className='gameboy-dropzone' {...getRootProps()}>
+                        <input {...getInputProps()} />
+                        <p>Drop Gameboy ROM to play!</p>
+                    </div>
+                    </section>
+                )}
+            </Dropzone>
+        );
+    }
+
+    renderCanvas() {
+        if (!this.state.gameboy_pointer)
+            return undefined;
+
+        return (
+            <Canvas width={gameboy_width} height={gameboy_height} gameboy_pointer={this.state.gameboy_pointer}></Canvas>
         );
     }
 
