@@ -7,7 +7,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@types/chunk": "0.0.0",
-    "caklimas-rust-gameboy": "^0.2.0",
+    "caklimas-rust-gameboy": "^0.2.1",
     "chunk": "0.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

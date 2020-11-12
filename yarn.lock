@@ -2472,9 +2472,9 @@ cache-base@^1.0.1:
     union-value "^1.0.0"
     unset-value "^1.0.0"
 
-caklimas-rust-gameboy@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/caklimas-rust-gameboy/-/caklimas-rust-gameboy-0.2.0.tgz#94a4229ac1f672f137f2411062b7ee30e11c5c96"
+caklimas-rust-gameboy@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/caklimas-rust-gameboy/-/caklimas-rust-gameboy-0.2.1.tgz#29b80222fcf55457ccc60be7bfe26991b8b0763a"
 
 call-me-maybe@^1.0.1:
   version "1.0.1"
