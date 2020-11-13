@@ -26,13 +26,10 @@ jobs:
         npm install
         npm run build --if-present
 
-    - name: 'Get list of files'
-      run: ls -a
-
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'rust-gameboy'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_e285611aba4847fdadf1d9f91c1f45a8 }}
-        package: '$(System.DefaultWorkingDirectory)/build'
+        package: ./build
