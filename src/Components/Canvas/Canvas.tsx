@@ -6,11 +6,16 @@ import { RustGameboy, loadWasm } from '../../Helpers/wasm';
 interface CanvasProps {
     gameboy_pointer: number,
     width: number,
-    height: number
+    height: number,
+    pixelSize: number
 }
 
 interface CanvasState {
-    wasm: RustGameboy
+    wasm: RustGameboy,
+    width: number,
+    height: number,
+    bytesPerRow: number,
+    bytesPerColumn: number
 }
 
 class Canvas extends React.Component<CanvasProps, CanvasState> {
@@ -43,6 +48,16 @@ class Canvas extends React.Component<CanvasProps, CanvasState> {
         this.interval_id = 0;
         this.setCanvasRef = this.setCanvasRef.bind(this);
         this.updateCanvas = this.updateCanvas.bind(this);
+
+        let bytesPerColumn = props.pixelSize * 4; 
+        let bytesPerRow = bytesPerColumn * props.width;
+        this.state = {
+            wasm: null,
+            width: props.width * props.pixelSize,
+            height: props.height * props.pixelSize,
+            bytesPerRow,
+            bytesPerColumn
+        };
     }
 
     render() {
@@ -50,8 +65,8 @@ class Canvas extends React.Component<CanvasProps, CanvasState> {
             <canvas
                 className="gameboy"
                 ref={this.setCanvasRef}
-                width={this.props.width}
-                height={this.props.height} 
+                width={this.props.width * this.props.pixelSize}
+                height={this.props.height * this.props.pixelSize} 
             />
         );
     }
@@ -69,19 +84,30 @@ class Canvas extends React.Component<CanvasProps, CanvasState> {
         const frame = this.state.wasm.clock_frame(this.props.gameboy_pointer);
         const chunked = chunk(frame, 3);
         const ctx = this.canvas.getContext('2d');
-        const imageData = ctx.createImageData(this.props.width, this.props.height);
+        const imageData = ctx.createImageData(this.state.width, this.state.height);
         const data = imageData.data;
-        let dataIndex = 0;
         for (let i = 0; i < chunked.length; i++)
         {
             let rgb = chunked[i];
-            for (let j = 0; j < rgb.length; j++) {
-                data[dataIndex] = rgb[j];
-                dataIndex++;
-            }
+            let x = i % this.props.width;
+            let y = Math.floor(i / this.props.width);
+            let yOffset = y * this.state.bytesPerRow * this.props.pixelSize;
+            for (let rowNum = 0; rowNum < this.props.pixelSize; rowNum++) {
+                let rowOffset = yOffset + (rowNum * this.state.bytesPerRow);
+                let xOffset = x * this.state.bytesPerColumn;
 
-            data[dataIndex] = 255;
-            dataIndex++;
+                for (let colNum = 0; colNum < this.props.pixelSize; colNum++) {
+                    let colOffset = xOffset + (colNum * 4);
+                    let offset = rowOffset + colOffset;
+                    let color = 0;
+                    while (color < rgb.length) {
+                        data[offset + color] = rgb[color];
+                        color++;
+                    }
+                    
+                    data[offset + color] = 255;
+                }
+            }
         }
         ctx.putImageData(imageData, 0, 0);
     }

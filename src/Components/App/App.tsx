@@ -4,9 +4,9 @@ import './App.css';
 import Canvas from '../Canvas/Canvas';
 import { RustGameboy , loadWasm } from '../../Helpers/wasm';
 
-const pixel_size = 1;
-const gameboy_width = 160 * pixel_size;
-const gameboy_height = 144 * pixel_size;
+const pixelSize = 3;
+const gameboyWidth = 160;
+const gameboyHeight = 144;
 
 interface AppState {
   gameboy_pointer: number,
@@ -21,7 +21,7 @@ class App extends React.Component<{}, AppState> {
         });
     }
 
-    constructor(props: any) {
+    constructor(props: {}) {
         super(props);
         this.loadFileBytes = this.loadFileBytes.bind(this);
         this.state = {
@@ -32,10 +32,10 @@ class App extends React.Component<{}, AppState> {
 
     render() {
         return (
-        <div className="App">
-            { this.renderDropzone() }
-            { this.renderCanvas() }
-        </div>
+            <div className="App">
+                { this.renderDropzone() }
+                { this.renderCanvas() }
+            </div>
         );
     }
 
@@ -47,10 +47,10 @@ class App extends React.Component<{}, AppState> {
             <Dropzone onDrop={this.loadFileBytes}>
                 {({getRootProps, getInputProps}) => (
                     <section>
-                    <div className='gameboy-dropzone' {...getRootProps()}>
-                        <input {...getInputProps()} />
-                        <p>Drop Gameboy ROM to play!</p>
-                    </div>
+                        <div className='gameboy-dropzone' {...getRootProps()}>
+                            <input {...getInputProps()} />
+                            <p>Drop Gameboy ROM to play!</p>
+                        </div>
                     </section>
                 )}
             </Dropzone>
@@ -62,7 +62,7 @@ class App extends React.Component<{}, AppState> {
             return undefined;
 
         return (
-            <Canvas width={gameboy_width} height={gameboy_height} gameboy_pointer={this.state.gameboy_pointer}></Canvas>
+            <Canvas width={gameboyWidth} height={gameboyHeight} pixelSize={pixelSize} gameboy_pointer={this.state.gameboy_pointer}></Canvas>
         );
     }
 
