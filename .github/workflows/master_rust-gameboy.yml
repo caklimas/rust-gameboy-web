@@ -26,6 +26,9 @@ jobs:
         npm install
         npm run build --if-present
 
+    - name: 'Get list of files'
+      run: ls -a
+
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
       with:
