@@ -1,16 +1,18 @@
 import React from 'react';
 import chunk from 'chunk';
-import './Canvas.css';
+import cs from 'classnames';
+import './Screen.css';
 import { RustGameboy, loadWasm } from '../../helpers/wasm';
 
-interface CanvasProps {
+interface ScreenProps {
+    className?: string,
     gameboy_pointer: number,
     width: number,
     height: number,
     pixelSize: number
 }
 
-interface CanvasState {
+interface ScreenState {
     wasm: RustGameboy,
     width: number,
     height: number,
@@ -18,7 +20,7 @@ interface CanvasState {
     bytesPerColumn: number
 }
 
-class Canvas extends React.Component<CanvasProps, CanvasState> {
+class Screen extends React.Component<ScreenProps, ScreenState> {
     private canvas: any;
     private interval_id: number;
 
@@ -29,7 +31,7 @@ class Canvas extends React.Component<CanvasProps, CanvasState> {
         }, () => console.log('Loaded WASM'));
     }
 
-    componentDidUpdate(prevProps: CanvasProps) {
+    componentDidUpdate() {
         if (!!this.props.gameboy_pointer) {
             console.log('Loaded ROM');
             this.interval_id = window.setInterval(() => window.requestAnimationFrame(this.updateCanvas), 16);
@@ -41,7 +43,7 @@ class Canvas extends React.Component<CanvasProps, CanvasState> {
             window.clearInterval(this.interval_id);
     }
 
-    constructor(props: CanvasProps) {
+    constructor(props: ScreenProps) {
         super(props);
 
         this.canvas = null;
@@ -63,7 +65,7 @@ class Canvas extends React.Component<CanvasProps, CanvasState> {
     render() {
         return (
             <canvas
-                className="gameboy"
+                className={cs(this.props.className, 'gameboy-screen')}
                 ref={this.setCanvasRef}
                 width={this.props.width * this.props.pixelSize}
                 height={this.props.height * this.props.pixelSize} 
@@ -113,4 +115,4 @@ class Canvas extends React.Component<CanvasProps, CanvasState> {
     }
 }
 
-export default Canvas;
+export default Screen;

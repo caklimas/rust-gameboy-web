@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
 
+import './RomLoader.css';
 import { loadRom } from '../../redux/actions/gameboy';
 import { RustGameboy , loadWasm } from '../../helpers/wasm';
 import { State } from '../../redux/state/state';
@@ -48,7 +49,7 @@ const RomLoader = (props: RomLoaderProps) => {
     return (
         <Dropzone onDrop={loadFileBytes}>
             {({getRootProps, getInputProps}) => (
-                <div className='gameboy-dropzone' {...getRootProps()}>
+                <div className='rom-loader-dropzone' {...getRootProps()}>
                     <input {...getInputProps()} />
                     <p>Drop Gameboy ROM to play!</p>
                 </div>

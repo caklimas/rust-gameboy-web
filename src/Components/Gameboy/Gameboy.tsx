@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import './Gameboy.css';
 import gameboyDimensions from '../../constants/gameboy';
 import { State } from '../../redux/state/state';
-import Canvas from '../Canvas/Canvas';
+import Screen from '../Screen/Screen';
 
 export interface GameboyProps {
     pointer: number
@@ -14,12 +15,15 @@ const Gameboy = (props: GameboyProps) => {
         return null
 
     return (
-        <Canvas 
-            width={gameboyDimensions.width}
-            height={gameboyDimensions.height}
-            pixelSize={gameboyDimensions.pixelSize}
-            gameboy_pointer={props.pointer}
-        />
+        <div className='gameboy'>
+            <Screen
+                className='gameboy-item'
+                width={gameboyDimensions.width}
+                height={gameboyDimensions.height}
+                pixelSize={gameboyDimensions.pixelSize}
+                gameboy_pointer={props.pointer}
+            />
+        </div>
     );
 };
 

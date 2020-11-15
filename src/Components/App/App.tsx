@@ -1,5 +1,4 @@
 import React from 'react';
-
 import './App.css';
 import Gameboy from '../Gameboy/Gameboy';
 import RomLoader from '../RomLoader/RomLoader';
