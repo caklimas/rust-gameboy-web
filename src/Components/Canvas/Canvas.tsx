@@ -1,7 +1,7 @@
 import React from 'react';
 import chunk from 'chunk';
 import './Canvas.css';
-import { RustGameboy, loadWasm } from '../../Helpers/wasm';
+import { RustGameboy, loadWasm } from '../../helpers/wasm';
 
 interface CanvasProps {
     gameboy_pointer: number,

@@ -1,4 +1,6 @@
-.App {
+.app {
+  background-color: gray;
+  height: 100vh;
   text-align: center;
 }
 
@@ -8,7 +10,6 @@
   cursor: pointer;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 10px;
   max-width: 220px;
   min-height: 100px;
 }

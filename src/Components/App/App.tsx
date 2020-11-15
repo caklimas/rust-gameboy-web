@@ -1,12 +1,8 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import './App.css';
-import Canvas from '../Canvas/Canvas';
-import { RustGameboy , loadWasm } from '../../Helpers/wasm';
-
-const pixelSize = 3;
-const gameboyWidth = 160;
-const gameboyHeight = 144;
+import Gameboy from '../Gameboy/Gameboy';
+import { RustGameboy , loadWasm } from '../../helpers/wasm';
 
 interface AppState {
   gameboy_pointer: number,
@@ -32,7 +28,7 @@ class App extends React.Component<{}, AppState> {
 
     render() {
         return (
-            <div className="App">
+            <div className='app'>
                 { this.renderDropzone() }
                 { this.renderCanvas() }
             </div>
@@ -46,12 +42,10 @@ class App extends React.Component<{}, AppState> {
         return (
             <Dropzone onDrop={this.loadFileBytes}>
                 {({getRootProps, getInputProps}) => (
-                    <section>
-                        <div className='gameboy-dropzone' {...getRootProps()}>
-                            <input {...getInputProps()} />
-                            <p>Drop Gameboy ROM to play!</p>
-                        </div>
-                    </section>
+                    <div className='gameboy-dropzone' {...getRootProps()}>
+                        <input {...getInputProps()} />
+                        <p>Drop Gameboy ROM to play!</p>
+                    </div>
                 )}
             </Dropzone>
         );
@@ -62,23 +56,23 @@ class App extends React.Component<{}, AppState> {
             return undefined;
 
         return (
-            <Canvas width={gameboyWidth} height={gameboyHeight} pixelSize={pixelSize} gameboy_pointer={this.state.gameboy_pointer}></Canvas>
+            <Gameboy pointer={this.state.gameboy_pointer} />
         );
     }
 
     loadFileBytes<T extends File>(acceptedFiles: T[]) {
-        acceptedFiles.forEach(file => {
-        const reader = new FileReader();
-        reader.onabort = () => console.log("File was aborted");
-        reader.onerror = () => console.log("Error reading the file");
-        reader.onload = () => {
-            const buffer = reader.result;
-            var array = new Uint8Array(buffer as any);
-            let gb = this.state.wasm.run(array);
-            this.setState({ gameboy_pointer: gb });
-        };
+            acceptedFiles.forEach(file => {
+            const reader = new FileReader();
+            reader.onabort = () => console.log("File was aborted");
+            reader.onerror = () => console.log("Error reading the file");
+            reader.onload = () => {
+                const buffer = reader.result;
+                var array = new Uint8Array(buffer as any);
+                let gb = this.state.wasm.run(array);
+                this.setState({ gameboy_pointer: gb });
+            };
 
-        reader.readAsArrayBuffer(file);
+            reader.readAsArrayBuffer(file);
         });
     };
 }
