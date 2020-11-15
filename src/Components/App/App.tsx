@@ -1,5 +1,7 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
+import { connect } from 'react-redux';
+
 import './App.css';
 import Gameboy from '../Gameboy/Gameboy';
 import { RustGameboy , loadWasm } from '../../helpers/wasm';
