@@ -2,7 +2,6 @@ const path = require('path');
 
 module.exports = function override(config, env) {
   const wasmExtensionRegExp = /\.wasm$/;
-
   config.resolve.extensions.push('.wasm');
 
   config.module.rules.forEach(rule => {
