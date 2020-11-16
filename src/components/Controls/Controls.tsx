@@ -10,6 +10,7 @@ export interface ControlState {
 };
 
 const KeyboardEventHandler = require('react-keyboard-event-handler');
+const handleKeys = ['up', 'down', 'left', 'right'];
 
 const Controls = () => {
     const [state, setState] = useState<ControlState>({
@@ -34,10 +35,27 @@ const Controls = () => {
                 <ControlButton pressed={state.rightPressed} text='Right' />
             </div>
             <KeyboardEventHandler
-                handleKeys={['up', 'down', 'left', 'right']}
-                onKeyEvent={(key: any, e: any) => {
+                handleKeys={handleKeys}
+                handleEventType='keydown'
+                onKeyEvent={(key: string, e: any) => {
+                    const p: keyof ControlState = (`${key}Pressed` as any);
+                    if (state[p])
+                        return;
+
+                    setState({ ...state, [p]: true });
                     console.log(`do something upon keydown event of ${key}`);
-                    console.log(e);
+                }} 
+            />
+            <KeyboardEventHandler
+                handleKeys={handleKeys}
+                handleEventType='keyup'
+                onKeyEvent={(key: any, e: any) => {
+                    let p: keyof ControlState = (`${key}Pressed` as any);
+                    if (!state[p])
+                        return;
+
+                        setState({ ...state, [p]: false });
+                    console.log(`do something upon keyup event of ${key}`);
                 }} 
             />
         </div>
