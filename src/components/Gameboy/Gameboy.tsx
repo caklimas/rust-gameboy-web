@@ -5,6 +5,7 @@ import './Gameboy.css';
 import gameboyDimensions from '../../constants/gameboy';
 import { State } from '../../redux/state/state';
 import Screen from '../Screen/Screen';
+import Controls from '../Controls/Controls';
 
 export interface GameboyProps {
     pointer: number
@@ -23,6 +24,7 @@ const Gameboy = (props: GameboyProps) => {
                 pixelSize={gameboyDimensions.pixelSize}
                 gameboy_pointer={props.pointer}
             />
+            <Controls />
         </div>
     );
 };
