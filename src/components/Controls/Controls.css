@@ -1,7 +1,11 @@
 .gameboy-controls {
-    display: grid;
+    margin-top: 20px;
+}
+
+.gameboy-directional-controls {
+    display: inline-grid;
     grid-template-columns: repeat(3, 75px);
-    justify-content: center;
+    margin-right: 110px;
 }
 
 .gameboy-controls-up {
@@ -22,4 +26,37 @@
 .gameboy-controls-right {
     grid-column: 3;
     grid-row: 2;
+}
+
+.gameboy-a-b-controls {
+    display: inline-grid;
+    grid-template-columns: repeat(2, 75px);
+}
+
+.gameboy-controls-a {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.gameboy-controls-b {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.gameboy-start-select-controls {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(2, 75px);
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.gameboy-controls-start {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.gameboy-controls-select {
+    grid-column: 2;
+    grid-row: 1;
 }
