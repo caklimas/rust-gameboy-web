@@ -1,0 +1,8 @@
+.gameboy-controls-button.gameboy-controls-button-circle {
+    border-radius: 50%;
+    width: 40px;
+}
+
+.gameboy-controls-button-square {
+    width: 75px;
+}
