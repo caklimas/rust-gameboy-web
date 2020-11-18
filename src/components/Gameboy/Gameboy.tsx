@@ -24,7 +24,7 @@ const Gameboy = (props: GameboyProps) => {
                 pixelSize={gameboyDimensions.pixelSize}
                 gameboy_pointer={props.pointer}
             />
-            <Controls />
+            <Controls className='gameboy-item' />
         </div>
     );
 };

@@ -15,7 +15,7 @@ const ControlButton = (props: ControlButtonProps) => (
 );
 
 const getButtonClass = (type: 'circle' | 'square') => (
-    type === 'circle' ? 'gameboy-controls-button-circle' : 'gameboy-controls-button-square'
+    type === 'circle' ? 'gameboy-controls-button gameboy-controls-button-circle' : 'gameboy-controls-button-square'
 )
 
 const getVariant = (pressed: boolean): string => (

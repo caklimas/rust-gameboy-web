@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
+import cs from 'classnames';
 import './Controls.css';
 import ControlButton from './ControlButton/ControlButton';
 
-export interface ControlState {
+export interface ControlsProps {
+    className?: string
+}
+
+export interface ControlsState {
     upPressed: boolean,
     downPressed: boolean,
     leftPressed: boolean,
@@ -10,14 +15,14 @@ export interface ControlState {
     xPressed: boolean,
     zPressed: boolean,
     shiftPressed: boolean,
-    altPressed: boolean
+    enterPressed: boolean
 };
 
 const KeyboardEventHandler = require('react-keyboard-event-handler');
-const handleKeys = ['up', 'down', 'left', 'right', 'z', 'x', 'shift', 'alt'];
+const handleKeys = ['up', 'down', 'left', 'right', 'z', 'x', 'shift', 'enter'];
 
-const Controls = () => {
-    const [state, setState] = useState<ControlState>({
+const Controls = (props: ControlsProps) => {
+    const [state, setState] = useState<ControlsState>({
         upPressed: false,
         downPressed: false,
         leftPressed: false,
@@ -25,11 +30,11 @@ const Controls = () => {
         xPressed: false,
         zPressed: false,
         shiftPressed: false,
-        altPressed: false
+        enterPressed: false
     });
 
     return (
-        <div className='gameboy-controls'>
+        <div className={cs(props.className, 'gameboy-controls')}>
             {renderUpperControls(state)}
             {renderLowerControls(state)}
             {renderKeyboardHandlers(state, setState)}
@@ -37,7 +42,7 @@ const Controls = () => {
     );
 };
 
-const renderUpperControls = (state: ControlState) => {
+const renderUpperControls = (state: ControlsState) => {
     return (
         <div>
             <div className='gameboy-directional-controls'>
@@ -66,7 +71,7 @@ const renderUpperControls = (state: ControlState) => {
     );
 };
 
-const renderLowerControls = (state: ControlState) => {
+const renderLowerControls = (state: ControlsState) => {
     return (
         <div>
             <div className='gameboy-start-select-controls'>
@@ -74,38 +79,36 @@ const renderLowerControls = (state: ControlState) => {
                     <ControlButton pressed={state.shiftPressed} text="Start" />
                 </div>
                 <div className='gameboy-controls-select'>
-                    <ControlButton pressed={state.altPressed} text="Select" />
+                    <ControlButton pressed={state.enterPressed} text="Select" />
                 </div>
             </div>
         </div>
     );
 };
 
-const renderKeyboardHandlers = (state: ControlState, setState: React.Dispatch<React.SetStateAction<ControlState>>) => {
+const renderKeyboardHandlers = (state: ControlsState, setState: React.Dispatch<React.SetStateAction<ControlsState>>) => {
     return (
         <>
             <KeyboardEventHandler
                 handleKeys={handleKeys}
                 handleEventType='keydown'
                 onKeyEvent={(key: string, e: any) => {
-                    const p: keyof ControlState = (`${key}Pressed` as any);
+                    const p: keyof ControlsState = (`${key}Pressed` as any);
                     if (state[p])
                         return;
 
                     setState({ ...state, [p]: true });
-                    console.log(`do something upon keydown event of ${key}`);
                 }} 
             />
             <KeyboardEventHandler
                 handleKeys={handleKeys}
                 handleEventType='keyup'
                 onKeyEvent={(key: any, e: any) => {
-                    let p: keyof ControlState = (`${key}Pressed` as any);
+                    let p: keyof ControlsState = (`${key}Pressed` as any);
                     if (!state[p])
                         return;
 
                         setState({ ...state, [p]: false });
-                    console.log(`do something upon keyup event of ${key}`);
                 }} 
             />
         </>
