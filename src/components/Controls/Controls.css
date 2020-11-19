@@ -5,7 +5,7 @@
 .gameboy-directional-controls {
     display: inline-grid;
     grid-template-columns: repeat(3, 60px);
-    margin-right: 205px;
+    margin-right: 195px;
 }
 
 .gameboy-controls-up {
@@ -30,7 +30,7 @@
 
 .gameboy-a-b-controls {
     display: inline-grid;
-    grid-template-columns: repeat(2, 50px);
+    grid-template-columns: repeat(2, 60px);
 }
 
 .gameboy-controls-a {
