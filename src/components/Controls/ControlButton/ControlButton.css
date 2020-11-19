@@ -1,8 +1,17 @@
-.gameboy-controls-button.gameboy-controls-button-circle {
-    border-radius: 50%;
-    width: 40px;
+.btn.gameboy-controls-button {
+    font-size: 30px;
 }
 
-.gameboy-controls-button-square {
+.gameboy-controls-button.gameboy-controls-button-circle {
+    border-radius: 50%;
+    width: 60px;
+}
+
+.gameboy-controls-button-directional {
+    width: 60px;
+}
+
+.btn.gameboy-controls-button.gameboy-controls-button-start-select {
+    font-size: 1rem;
     width: 75px;
 }
