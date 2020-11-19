@@ -29,7 +29,7 @@ const getButtonClass = (type: ButtonType = "start-select"): string => {
         case "start-select":
             return "gameboy-controls-button-start-select";
         default:
-            throw `Invalid button type ${type}`;
+            throw new Error(`Invalid button type ${type}`);
     };
 }
 
