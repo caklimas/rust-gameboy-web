@@ -47,24 +47,24 @@ const renderUpperControls = (state: ControlsState) => {
         <div>
             <div className='gameboy-directional-controls'>
                 <div className='gameboy-controls-up'>
-                    <ControlButton pressed={state.upPressed} text='Up' />
+                    <ControlButton pressed={state.upPressed} text='↑' type='directional' />
                 </div>
                 <div className='gameboy-controls-down'>
-                    <ControlButton pressed={state.downPressed} text='Down' />
+                    <ControlButton pressed={state.downPressed} text='↓' type='directional' />
                 </div>
                 <div className='gameboy-controls-left'>
-                    <ControlButton pressed={state.leftPressed} text='Left' />
+                    <ControlButton pressed={state.leftPressed} text='←' type='directional' />
                 </div>
                 <div className='gameboy-controls-right'>
-                    <ControlButton pressed={state.rightPressed} text='Right' />
+                    <ControlButton pressed={state.rightPressed} text='→' type='directional' />
                 </div>
             </div>
             <div className='gameboy-a-b-controls'>
                 <div className='gameboy-controls-a'>
-                    <ControlButton pressed={state.xPressed} text="A" type='circle' />
+                    <ControlButton pressed={state.xPressed} text='A' type='circle' />
                 </div>
                 <div className='gameboy-controls-b'>
-                    <ControlButton pressed={state.zPressed} text="B" type='circle' />
+                    <ControlButton pressed={state.zPressed} text='B' type='circle' />
                 </div>
             </div>
         </div>
@@ -76,10 +76,10 @@ const renderLowerControls = (state: ControlsState) => {
         <div>
             <div className='gameboy-start-select-controls'>
                 <div className='gameboy-controls-start'>
-                    <ControlButton pressed={state.shiftPressed} text="Start" />
+                    <ControlButton pressed={state.shiftPressed} text='Start' type='start-select' />
                 </div>
                 <div className='gameboy-controls-select'>
-                    <ControlButton pressed={state.enterPressed} text="Select" />
+                    <ControlButton pressed={state.enterPressed} text='Select' type='start-select' />
                 </div>
             </div>
         </div>
