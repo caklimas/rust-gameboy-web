@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import cs from 'classnames';
-import './Controls.css';
+import './Controls.scss';
 import ControlButton from './ControlButton/ControlButton';
 
 export interface ControlsProps {

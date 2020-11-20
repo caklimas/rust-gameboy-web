@@ -1,7 +1,7 @@
 import React from 'react';
 import cs from 'classnames';
 import Button from 'react-bootstrap/Button';
-import './ControlButton.css';
+import './ControlButton.scss';
 
 export type ButtonType = 'circle' | 'directional' | 'start-select';
 

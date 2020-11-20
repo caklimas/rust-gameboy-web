@@ -1,7 +1,7 @@
 import React from 'react';
 import chunk from 'chunk';
 import cs from 'classnames';
-import './Screen.css';
+import './Screen.scss';
 import { RustGameboy, loadWasm } from '../../helpers/wasm';
 
 interface ScreenProps {
