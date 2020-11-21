@@ -20,7 +20,7 @@ export interface ScreenSize {
 
 const Gameboy = (props: GameboyProps) => {
     const isMobile = useMediaQuery({ maxDeviceWidth: mediaQueries.maxMobile, minDeviceWidth: mediaQueries.minMobile });
-    const pixelSize = isMobile ? 2 : 3;
+    const pixelSize = isMobile ? 1 : 3;
     if (!props.pointer)
         return null;
 
