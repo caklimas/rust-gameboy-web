@@ -64,12 +64,14 @@ class Screen extends React.Component<ScreenProps, ScreenState> {
 
     render() {
         return (
-            <canvas
-                className={cs(this.props.className, 'gameboy-screen')}
-                ref={this.setCanvasRef}
-                width={this.props.width * this.props.pixelSize}
-                height={this.props.height * this.props.pixelSize} 
-            />
+            <div className='gameboy-screen-flex'>
+                <canvas
+                    className={cs(this.props.className, 'gameboy-screen')}
+                    ref={this.setCanvasRef}
+                    width={this.props.width * this.props.pixelSize}
+                    height={this.props.height * this.props.pixelSize} 
+                />
+            </div>
         );
     }
 

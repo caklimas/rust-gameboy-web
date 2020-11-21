@@ -1,3 +1,5 @@
+@import '../../styles/variables.scss';
+
 .gameboy {
     background-color: #bababa;
     border-top-left-radius: 10px;
@@ -6,8 +8,16 @@
     border-bottom-right-radius: 25px;
     display: flex;
     flex-direction: column;
-    max-height: 800px;
+    height: 500px;
     margin-top: 20px;
+    width: 350px;
+}
+
+@media only screen and (min-width: $media-min-lg) {
+    .gameboy {
+        height: 600px;
+        width: 540px;
+    }
 }
 
 .gameboy-item {

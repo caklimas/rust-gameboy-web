@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import cs from 'classnames';
 import './Controls.scss';
 import ControlButton from './ControlButton/ControlButton';
+import mediaQueries from '../../constants/mediaQueries';
 
 export interface ControlsProps {
     className?: string
@@ -22,6 +24,7 @@ const KeyboardEventHandler = require('react-keyboard-event-handler');
 const handleKeys = ['up', 'down', 'left', 'right', 'z', 'x', 'shift', 'enter'];
 
 const Controls = (props: ControlsProps) => {
+    const isMobile = useMediaQuery({ maxDeviceWidth: mediaQueries.maxMobile, minDeviceWidth: mediaQueries.minMobile });
     const [state, setState] = useState<ControlsState>({
         upPressed: false,
         downPressed: false,
@@ -32,6 +35,10 @@ const Controls = (props: ControlsProps) => {
         shiftPressed: false,
         enterPressed: false
     });
+
+    if (isMobile) {
+        return null;
+    }
 
     return (
         <div className={cs(props.className, 'gameboy-controls')}>
