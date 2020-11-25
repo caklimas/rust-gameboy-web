@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
+// @ts-ignore
+import ReactNipple from 'react-nipple';
 import cs from 'classnames';
 import './Controls.scss';
 import ControlButton from './ControlButton/ControlButton';
@@ -36,11 +38,17 @@ const Controls = (props: ControlsProps) => {
         enterPressed: false
     });
 
-    if (isMobile) {
-        return null;
-    }
-
-    return (
+    return isMobile ? (
+        <ReactNipple
+            options={{ mode: 'static', position: { top: '50%', left: '50%' } }}
+            style={{
+                outline: '1px dashed red',
+                width: 150,
+                height: 150
+            }}
+            onMove={(evt: any, data: any) => console.log(evt, data)}
+        />
+    ) : (
         <div className={cs(props.className, 'gameboy-controls')}>
             {renderUpperControls(state)}
             {renderLowerControls(state)}
