@@ -4,7 +4,7 @@ import { useMediaQuery } from 'react-responsive';
 
 import './Gameboy.scss';
 import gameboyDimensions from '../../constants/gameboy';
-import mediaQueries from '../../constants/mediaQueries';
+import { mobileMediaQuery } from '../../helpers/mediaQueries';
 import { State } from '../../redux/state/state';
 import Screen from '../Screen/Screen';
 import Controls from '../Controls/Controls';
@@ -13,13 +13,8 @@ export interface GameboyProps {
     pointer: number
 };
 
-export interface ScreenSize {
-    isMobile: boolean,
-    isDesktop: boolean
-};
-
 const Gameboy = (props: GameboyProps) => {
-    const isMobile = useMediaQuery({ maxDeviceWidth: mediaQueries.maxMobile, minDeviceWidth: mediaQueries.minMobile });
+    const isMobile = useMediaQuery(mobileMediaQuery);
     const pixelSize = isMobile ? 1 : 3;
     if (!props.pointer)
         return null;
