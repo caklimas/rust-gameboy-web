@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Dropzone from 'react-dropzone';
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import Dropdown from 'react-bootstrap/Dropdown';
 import { connect } from 'react-redux';
 
 import './RomLoader.scss';
@@ -18,22 +19,6 @@ export interface RomLoaderDispatchProps {
 
 const RomLoader = (props: RomLoaderProps) => {
     const [gameboy, setGameboy] = useState<RustGameboy>(null);
-    const loadFileBytes = <T extends File>(acceptedFiles: T[]) => {
-        acceptedFiles.forEach(file => {
-            const reader = new FileReader();
-            reader.onabort = () => console.log("File was aborted");
-            reader.onerror = () => console.log("Error reading the file");
-            reader.onload = () => {
-                const buffer = reader.result;
-                var array = new Uint8Array(buffer as any);
-                let gb = gameboy.run(array);
-                props.loadRom(gb);
-            };
-    
-            reader.readAsArrayBuffer(file);
-        });
-    };
-
     useEffect(() => {
         const getGameboy = async () => {
             const gameboy = await loadWasm();
@@ -47,16 +32,37 @@ const RomLoader = (props: RomLoaderProps) => {
         return null
 
     return (
-        <Dropzone onDrop={loadFileBytes}>
-            {({getRootProps, getInputProps}) => (
-                <div className='rom-loader-dropzone' {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    <p>Drop Gameboy ROM to play!</p>
-                </div>
-            )}
-        </Dropzone>
+        <DropdownButton 
+            className='gameboy-rom-loader'
+            variant='secondary'
+            id="dropdown-basic-button"
+            title="Select ROM to play"
+        >
+            <Dropdown.Item onClick={async () => await readFile(props, gameboy, 'cpu_instrs.gb')}>
+                CPU All Tests
+            </Dropdown.Item>
+            <Dropdown.Item onClick={async () => await readFile(props, gameboy, '02-interrupts.gb')}>
+                CPU Interrupts Test
+            </Dropdown.Item>
+        </DropdownButton>
     );
 }
+
+const readFile = async (
+    props: RomLoaderProps,
+    gameboy: RustGameboy, 
+    fileName: string
+) => {
+    if (!gameboy)
+        return;
+
+    const response = await fetch(`/roms/${fileName}`);
+    const blob = await response.blob();
+    const buffer = await blob.arrayBuffer();
+    const bytes = new Uint8Array(buffer);
+    let gb = gameboy.run(bytes);
+    props.loadRom(gb);
+};
 
 const mapStateToProps = (state: State) => {
     return {
