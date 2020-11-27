@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { buttons } from './buttons';
 import { direction } from './direction';
 import { gameboy } from './gameboy';
 

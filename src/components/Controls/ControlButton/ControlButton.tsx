@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import cs from 'classnames';
 import Button from 'react-bootstrap/Button';
+import { State } from '../../../redux/state/state';
 import './ControlButton.scss';
 
 export type ButtonType = 'circle' | 'directional' | 'start-select';
@@ -32,10 +34,16 @@ const getButtonClass = (type: ButtonType = "start-select"): string => {
         default:
             throw new Error(`Invalid button type ${type}`);
     };
-}
+};
 
 const getVariant = (pressed: boolean): string => (
     pressed ? 'primary' : 'secondary'   
-)
+);
+
+const mapStateToProps = (state: State) => {
+    return {
+        direction: state.direction
+    };
+};
 
 export default ControlButton;
