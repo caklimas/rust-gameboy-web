@@ -1,7 +1,7 @@
 import React from 'react';
 import chunk from 'chunk';
 import cs from 'classnames';
-import './Screen.css';
+import './Screen.scss';
 import { RustGameboy, loadWasm } from '../../helpers/wasm';
 
 interface ScreenProps {
@@ -22,7 +22,7 @@ interface ScreenState {
 
 class Screen extends React.Component<ScreenProps, ScreenState> {
     private canvas: any;
-    private interval_id: number;
+    private request_id: number;
 
     async componentDidMount() {
         const wasm = await loadWasm();
@@ -34,22 +34,21 @@ class Screen extends React.Component<ScreenProps, ScreenState> {
     componentDidUpdate() {
         if (!!this.props.gameboy_pointer) {
             console.log('Loaded ROM');
-            this.interval_id = window.setInterval(() => window.requestAnimationFrame(this.updateCanvas), 16);
+            this.animate();
         }
     }
 
     componentWillUnmount() {
-        if (this.interval_id)
-            window.clearInterval(this.interval_id);
+        if (this.request_id) {
+            cancelAnimationFrame(this.request_id);
+        }
     }
 
     constructor(props: ScreenProps) {
         super(props);
 
         this.canvas = null;
-        this.interval_id = 0;
-        this.setCanvasRef = this.setCanvasRef.bind(this);
-        this.updateCanvas = this.updateCanvas.bind(this);
+        this.request_id = 0;
 
         let bytesPerColumn = props.pixelSize * 4; 
         let bytesPerRow = bytesPerColumn * props.width;
@@ -64,22 +63,29 @@ class Screen extends React.Component<ScreenProps, ScreenState> {
 
     render() {
         return (
-            <canvas
-                className={cs(this.props.className, 'gameboy-screen')}
-                ref={this.setCanvasRef}
-                width={this.props.width * this.props.pixelSize}
-                height={this.props.height * this.props.pixelSize} 
-            />
+            <div className='gameboy-screen-flex'>
+                <canvas
+                    className={cs(this.props.className, 'gameboy-screen')}
+                    ref={this.setCanvasRef}
+                    width={this.props.width * this.props.pixelSize}
+                    height={this.props.height * this.props.pixelSize} 
+                />
+            </div>
         );
     }
 
-    setCanvasRef(element: any) {
+    animate = () => {
+        this.request_id = requestAnimationFrame(this.animate);
+        this.updateCanvas();
+    }
+
+    setCanvasRef = (element: any) => {
         if (!element)
             return;
         this.canvas = element;
     }
 
-    updateCanvas() {
+    updateCanvas = () => {
         if (!this.canvas || !this.props.gameboy_pointer)
             return;
 

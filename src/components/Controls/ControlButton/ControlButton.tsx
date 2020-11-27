@@ -1,7 +1,7 @@
 import React from 'react';
 import cs from 'classnames';
 import Button from 'react-bootstrap/Button';
-import './ControlButton.css';
+import './ControlButton.scss';
 
 export type ButtonType = 'circle' | 'directional' | 'start-select';
 
@@ -15,6 +15,7 @@ const ControlButton = (props: ControlButtonProps) => (
     <Button
         className={cs(getButtonClass(props.type), 'gameboy-controls-button')} 
         variant={getVariant(props.pressed)}
+        onTouchStart={() => console.log('Touched')}        
     >
         {props.text}
     </Button>

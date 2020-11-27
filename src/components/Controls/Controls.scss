@@ -28,21 +28,6 @@
     grid-row: 2;
 }
 
-.gameboy-a-b-controls {
-    display: inline-grid;
-    grid-template-columns: repeat(2, 60px);
-}
-
-.gameboy-controls-a {
-    grid-column: 2;
-    grid-row: 1;
-}
-
-.gameboy-controls-b {
-    grid-column: 1;
-    grid-row: 2;
-}
-
 .gameboy-start-select-controls {
     display: grid;
     gap: 10px;

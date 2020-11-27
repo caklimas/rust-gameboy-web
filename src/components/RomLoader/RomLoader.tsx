@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
 
-import './RomLoader.css';
+import './RomLoader.scss';
 import { loadRom } from '../../redux/actions/gameboy';
 import { RustGameboy , loadWasm } from '../../helpers/wasm';
 import { State } from '../../redux/state/state';

@@ -1,0 +1,17 @@
+@import '../../styles/variables.scss';
+
+.gameboy-screen-flex {
+  display: flex;
+  justify-content: center; 
+}
+
+.gameboy-screen {
+  border: 1px solid #000000;
+  width: 320px;
+}
+
+@media only screen and (min-width: $media-min-md) {
+  .gameboy-screen {
+    width: 500px;
+  }
+}
