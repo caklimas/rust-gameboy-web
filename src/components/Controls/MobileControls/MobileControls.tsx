@@ -4,6 +4,7 @@ import ReactNipple from 'react-nipple';
 import { connect } from 'react-redux';
 import './MobileControls.scss';
 import { setDirectionFromAngle, clearDirection } from '../../../redux/actions/direction';
+import AbButtons from '../AbButtons/AbButtons';
 
 export interface MobileControlsProps {
     setDirectionFromAngle(angle: number): any;
@@ -11,15 +12,18 @@ export interface MobileControlsProps {
 }
 
 const MobileControls = (props: MobileControlsProps) => (
-    <ReactNipple
-        options={{ mode: 'static', position: { top: '50%', left: '50%' } }}
-        style={{
-            width: 150,
-            height: 150
-        }}
-        onMove={(_evt: any, data: any) => props.setDirectionFromAngle(data.angle.degree)}
-        onEnd={() => props.clearDirection()}
-    />
+    <div>
+        <ReactNipple
+            options={{ mode: 'static', position: { top: '50%', left: '50%' } }}
+            style={{
+                width: 150,
+                height: 150
+            }}
+            onMove={(_evt: any, data: any) => props.setDirectionFromAngle(data.angle.degree)}
+            onEnd={() => props.clearDirection()}
+        />
+        <AbButtons />
+    </div>
 );
 
 const mapDispatchToProps = (dispatch: any) => ({

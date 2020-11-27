@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useMediaQuery } from 'react-responsive';
 import './Controls.scss';
 import { mobileMediaQuery } from '../../helpers/mediaQueries';
@@ -22,17 +22,6 @@ export interface ControlsState {
 
 const Controls = (props: ControlsProps) => {
     const isMobile = useMediaQuery(mobileMediaQuery);
-    const [state, setState] = useState<ControlsState>({
-        upPressed: false,
-        downPressed: false,
-        leftPressed: false,
-        rightPressed: false,
-        xPressed: false,
-        zPressed: false,
-        shiftPressed: false,
-        enterPressed: false
-    });
-
     return isMobile ? (
         <MobileControls />
     ) : (

@@ -15,6 +15,7 @@ const ControlButton = (props: ControlButtonProps) => (
     <Button
         className={cs(getButtonClass(props.type), 'gameboy-controls-button')} 
         variant={getVariant(props.pressed)}
+        onTouchStart={() => console.log('Touched')}        
     >
         {props.text}
     </Button>

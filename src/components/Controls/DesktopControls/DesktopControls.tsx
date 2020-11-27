@@ -4,6 +4,7 @@ import cs from 'classnames';
 import { State } from '../../../redux/state/state';
 import { DirectionState } from '../../../redux/state/direction';
 import { setDirection } from '../../../redux/actions/direction';
+import AbButtons from '../AbButtons/AbButtons';
 import ControlButton from '../ControlButton/ControlButton';
 // @ts-ignore
 import KeyboardEventHandler from 'react-keyboard-event-handler';
@@ -49,14 +50,7 @@ const renderUpperControls = (state: DirectionState) => {
                     <ControlButton pressed={state.right} text='→' type='directional' />
                 </div>
             </div>
-            <div className='gameboy-a-b-controls'>
-                <div className='gameboy-controls-a'>
-                    <ControlButton pressed={false} text='A' type='circle' />
-                </div>
-                <div className='gameboy-controls-b'>
-                    <ControlButton pressed={false} text='B' type='circle' />
-                </div>
-            </div>
+            <AbButtons />
         </div>
     );
 };
