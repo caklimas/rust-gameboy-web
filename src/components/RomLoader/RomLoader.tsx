@@ -44,6 +44,9 @@ const RomLoader = (props: RomLoaderProps) => {
             <Dropdown.Item onClick={async () => await readFile(props, gameboy, '02-interrupts.gb')}>
                 CPU Interrupts Test
             </Dropdown.Item>
+            <Dropdown.Item onClick={async () => await readFile(props, gameboy, 'Dr. Mario.gb')}>
+                Dr. Mario
+            </Dropdown.Item>
         </DropdownButton>
     );
 }
