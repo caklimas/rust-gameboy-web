@@ -41,14 +41,14 @@ const RomLoader = (props: RomLoaderProps) => {
             <Dropdown.Item onClick={async () => await readFile(props, gameboy, 'cpu_instrs.gb')}>
                 CPU All Tests
             </Dropdown.Item>
-            <Dropdown.Item onClick={async () => await readFile(props, gameboy, 'Tetris.gb')}>
-                Tetris
+            <Dropdown.Item onClick={async () => await readFile(props, gameboy, 'Dr. Mario.gb')}>
+                Dr. Mario
             </Dropdown.Item>
             <Dropdown.Item onClick={async () => await readFile(props, gameboy, 'Super Mario Land.gb')}>
                 Super Mario Land
             </Dropdown.Item>
-            <Dropdown.Item onClick={async () => await readFile(props, gameboy, 'Dr. Mario.gb')}>
-                Dr. Mario
+            <Dropdown.Item onClick={async () => await readFile(props, gameboy, 'Tetris.gb')}>
+                Tetris
             </Dropdown.Item>
         </DropdownButton>
     );

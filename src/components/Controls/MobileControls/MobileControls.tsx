@@ -19,12 +19,17 @@ const MobileControls = (props: MobileControlsProps) => (
                 width: 150,
                 height: 150
             }}
-            onMove={(_evt: any, data: any) => props.setDirectionFromAngle(data.angle.degree)}
+            onMove={(evt: any, data: any) => onMove(evt, data, props)}
             onEnd={() => props.clearDirection()}
         />
         <AbButtons />
     </div>
 );
+
+const onMove = (evt: any, data: any, props: MobileControlsProps) => {
+    evt.preventDefault();
+    props.setDirectionFromAngle(data.angle.degree)
+};
 
 const mapDispatchToProps = (dispatch: any) => ({
     setDirectionFromAngle: (angle: number) => dispatch(setDirectionFromAngle(angle)),
