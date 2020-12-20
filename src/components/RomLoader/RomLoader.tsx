@@ -47,6 +47,9 @@ const RomLoader = (props: RomLoaderProps) => {
             <Dropdown.Item onClick={async () => await readFile(props, gameboy, 'Super Mario Land.gb')}>
                 Super Mario Land
             </Dropdown.Item>
+            <Dropdown.Item onClick={async () => await readFile(props, gameboy, 'Dr. Mario.gb')}>
+                Dr. Mario
+            </Dropdown.Item>
         </DropdownButton>
     );
 }
