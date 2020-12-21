@@ -14,7 +14,7 @@ export interface MobileControlsProps {
 const MobileControls = (props: MobileControlsProps) => (
     <div>
         <ReactNipple
-            options={{ mode: 'static', position: { top: '50%', left: '50%' } }}
+            options={{ multitouch: true }}
             style={{
                 width: 150,
                 height: 150
@@ -27,7 +27,6 @@ const MobileControls = (props: MobileControlsProps) => (
 );
 
 const onMove = (evt: any, data: any, props: MobileControlsProps) => {
-    evt.preventDefault();
     props.setDirectionFromAngle(data.angle.degree)
 };
 
