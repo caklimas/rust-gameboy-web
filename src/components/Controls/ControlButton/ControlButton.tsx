@@ -1,8 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import cs from 'classnames';
 import Button from 'react-bootstrap/Button';
-import { State } from '../../../redux/state/state';
+// import { State } from '../../../redux/state/state';
 import './ControlButton.scss';
 
 export type ButtonType = 'circle' | 'directional' | 'start-select';
@@ -40,10 +40,10 @@ const getVariant = (pressed: boolean): string => (
     pressed ? 'primary' : 'secondary'   
 );
 
-const mapStateToProps = (state: State) => {
-    return {
-        direction: state.direction
-    };
-};
+// const mapStateToProps = (state: State) => {
+//     return {
+//         direction: state.direction
+//     };
+// };
 
 export default ControlButton;

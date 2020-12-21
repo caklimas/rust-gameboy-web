@@ -4,6 +4,7 @@ import { direction } from './direction';
 import { gameboy } from './gameboy';
 
 export const rootReducer = combineReducers({
+    buttons,
     direction,
     gameboy
 });
