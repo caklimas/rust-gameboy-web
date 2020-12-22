@@ -52,6 +52,10 @@ const getVariant = (pressed: boolean): string => (
 const handleTouch = (e: React.TouchEvent<HTMLElement>, pressed: boolean, setState: React.Dispatch<React.SetStateAction<ControlButtonState>>) => {
     e.preventDefault();
     setState({ pressed });
+
+    if (pressed) {
+        window.navigator.vibrate(100);
+    }
 };
 
 // const mapStateToProps = (state: State) => {
