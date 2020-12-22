@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import { connect } from 'react-redux';
 import cs from 'classnames';
 import Button from 'react-bootstrap/Button';
@@ -13,22 +13,26 @@ export interface ControlButtonProps {
     type: ButtonType;
 }
 
-const ControlButton = (props: ControlButtonProps) => (
-    <Button
-        className={cs(getButtonClass(props.type), 'gameboy-controls-button')} 
-        variant={getVariant(props.pressed)}
-        onTouchStart={
-            e => { 
-                e.preventDefault();
-                console.log('Touched')
-            }
-        }        
-    >
-        {props.text}
-    </Button>
-);
+interface ControlButtonState {
+    pressed: boolean
+}
 
-const getButtonClass = (type: ButtonType = "start-select"): string => {
+const ControlButton = (props: ControlButtonProps) => {
+    const [state, setState] = useState<ControlButtonState>({ pressed: false });
+    return (
+        <Button
+            className={cs(getButtonClass(props.type, state), 'gameboy-controls-button')} 
+            variant={getVariant(props.pressed || state.pressed)}
+            onTouchStart={e => handleTouch(e, true, setState)}
+            onTouchEnd={e => handleTouch(e, false, setState)}
+            onTouchCancel={e => handleTouch(e, false, setState)}
+        >
+            {props.text}
+        </Button>
+    );
+};
+
+const getButtonClass = (type: ButtonType, state: ControlButtonState): string => {
     switch (type) {
         case "circle":
             return "gameboy-controls-button gameboy-controls-button-circle";
@@ -44,6 +48,11 @@ const getButtonClass = (type: ButtonType = "start-select"): string => {
 const getVariant = (pressed: boolean): string => (
     pressed ? 'primary' : 'secondary'   
 );
+
+const handleTouch = (e: React.TouchEvent<HTMLElement>, pressed: boolean, setState: React.Dispatch<React.SetStateAction<ControlButtonState>>) => {
+    e.preventDefault();
+    setState({ pressed });
+};
 
 // const mapStateToProps = (state: State) => {
 //     return {
