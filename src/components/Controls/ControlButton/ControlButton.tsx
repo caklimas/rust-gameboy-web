@@ -35,7 +35,7 @@ const ControlButton = (props: ControlButtonProps) => {
 const getButtonClass = (type: ButtonType, state: ControlButtonState): string => {
     switch (type) {
         case "circle":
-            return "gameboy-controls-button gameboy-controls-button-circle";
+            return "gameboy-controls-button-circle";
         case "directional":
             return "gameboy-controls-button-directional";
         case "start-select":

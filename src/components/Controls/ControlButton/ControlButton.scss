@@ -2,6 +2,10 @@
     font-size: 15px;
 }
 
+.gameboy-controls-button {
+    touch-action: none;
+}
+
 .gameboy-controls-button.gameboy-controls-button-circle {
     border-radius: 50%;
     width: 38px;

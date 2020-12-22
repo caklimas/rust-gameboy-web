@@ -14,21 +14,17 @@ export interface MobileControlsProps {
 const MobileControls = (props: MobileControlsProps) => (
     <div>
         <ReactNipple
-            options={{ multitouch: true }}
+            options={{ mode: 'static', position: { top: '50%', left: '50%' } }}
             style={{
                 width: 150,
                 height: 150
             }}
-            onMove={(evt: any, data: any) => onMove(evt, data, props)}
+            onMove={(_evt: any, data: any) => setDirectionFromAngle(data.angle.degree)}
             onEnd={() => props.clearDirection()}
         />
         <AbButtons />
     </div>
 );
-
-const onMove = (evt: any, data: any, props: MobileControlsProps) => {
-    props.setDirectionFromAngle(data.angle.degree)
-};
 
 const mapDispatchToProps = (dispatch: any) => ({
     setDirectionFromAngle: (angle: number) => dispatch(setDirectionFromAngle(angle)),
