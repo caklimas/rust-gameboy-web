@@ -54,7 +54,7 @@ const handleTouch = (e: React.TouchEvent<HTMLElement>, pressed: boolean, setStat
     setState({ pressed });
 
     if (pressed) {
-        window.navigator.vibrate(100);
+        window.navigator.vibrate(50);
     }
 };
 
