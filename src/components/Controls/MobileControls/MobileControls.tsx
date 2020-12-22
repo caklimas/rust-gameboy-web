@@ -19,7 +19,7 @@ const MobileControls = (props: MobileControlsProps) => (
                 width: 150,
                 height: 150
             }}
-            onMove={(_evt: any, data: any) => props.setDirectionFromAngle(data.angle.degree)}
+            onMove={(_evt: any, data: any) => setDirectionFromAngle(data.angle.degree)}
             onEnd={() => props.clearDirection()}
         />
         <AbButtons />
