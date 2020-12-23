@@ -53,7 +53,7 @@ const handleTouch = (e: React.TouchEvent<HTMLElement>, props: AbButtonsProps, bu
     props.setButtons(updatedState);
 
     if (pressed) {
-        window.navigator.vibrate(1);
+        window.navigator.vibrate(10);
     }
 };
 
