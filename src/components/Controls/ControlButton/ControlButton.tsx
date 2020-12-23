@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import { connect } from 'react-redux';
 import cs from 'classnames';
 import Button from 'react-bootstrap/Button';
@@ -11,28 +11,27 @@ export interface ControlButtonProps {
     pressed: boolean;
     text: string;
     type: ButtonType;
-}
 
-interface ControlButtonState {
-    pressed: boolean
+    onTouchStart?: (e: React.TouchEvent<HTMLElement>) => void
+    onTouchEnd?: (e: React.TouchEvent<HTMLElement>) => void
+    onTouchCancel?: (e: React.TouchEvent<HTMLElement>) => void
 }
 
 const ControlButton = (props: ControlButtonProps) => {
-    const [state, setState] = useState<ControlButtonState>({ pressed: false });
     return (
         <Button
-            className={cs(getButtonClass(props.type, state), 'gameboy-controls-button')} 
-            variant={getVariant(props.pressed || state.pressed)}
-            onTouchStart={e => handleTouch(e, true, setState)}
-            onTouchEnd={e => handleTouch(e, false, setState)}
-            onTouchCancel={e => handleTouch(e, false, setState)}
+            className={cs(getButtonClass(props.type), 'gameboy-controls-button')} 
+            variant={getVariant(props.pressed)}
+            onTouchStart={props.onTouchStart}
+            onTouchEnd={props.onTouchEnd}
+            onTouchCancel={props.onTouchCancel}
         >
             {props.text}
         </Button>
     );
 };
 
-const getButtonClass = (type: ButtonType, state: ControlButtonState): string => {
+const getButtonClass = (type: ButtonType): string => {
     switch (type) {
         case "circle":
             return "gameboy-controls-button-circle";
@@ -48,20 +47,5 @@ const getButtonClass = (type: ButtonType, state: ControlButtonState): string => 
 const getVariant = (pressed: boolean): string => (
     pressed ? 'primary' : 'secondary'   
 );
-
-const handleTouch = (e: React.TouchEvent<HTMLElement>, pressed: boolean, setState: React.Dispatch<React.SetStateAction<ControlButtonState>>) => {
-    e.preventDefault();
-    setState({ pressed });
-
-    if (pressed) {
-        window.navigator.vibrate(50);
-    }
-};
-
-// const mapStateToProps = (state: State) => {
-//     return {
-//         direction: state.direction
-//     };
-// };
 
 export default ControlButton;
