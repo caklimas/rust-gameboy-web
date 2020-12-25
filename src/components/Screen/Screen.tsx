@@ -1,15 +1,26 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import chunk from 'chunk';
 import cs from 'classnames';
 import './Screen.scss';
 import { RustGameboy, loadWasm } from '../../helpers/wasm';
+import { State } from '../../redux/state/state';
+import { ButtonState } from '../../redux/state/buttons';
+import { DirectionState } from '../../redux/state/direction';
 
-interface ScreenProps {
+export type ScreenProps = ScreenOwnProps & ScreenStateProps;
+
+interface ScreenOwnProps {
     className?: string,
     gameboy_pointer: number,
     width: number,
     height: number,
     pixelSize: number
+}
+
+interface ScreenStateProps {
+    buttons: ButtonState;
+    direction: DirectionState;
 }
 
 interface ScreenState {
@@ -89,6 +100,7 @@ class Screen extends React.Component<ScreenProps, ScreenState> {
         if (!this.canvas || !this.props.gameboy_pointer)
             return;
 
+        // const input = this.getInput();
         const frame = this.state.wasm.clock_frame(this.props.gameboy_pointer);
         const chunked = chunk(frame, 3);
         const ctx = this.canvas.getContext('2d');
@@ -119,6 +131,27 @@ class Screen extends React.Component<ScreenProps, ScreenState> {
         }
         ctx.putImageData(imageData, 0, 0);
     }
+
+    getInput() {
+        // const { buttons, direction } = this.props;
+        // let input = new this.state.wasm.Input();
+        // input.a = buttons.a;
+        // input.b = buttons.b;
+        // input.start = buttons.start;
+        // input.select = buttons.select;
+        // input.up = direction.up;
+        // input.down = direction.down;
+        // input.left = direction.left;
+        // input.right = direction.right;
+        // return input;
+    }
 }
 
-export default Screen;
+const mapStateToProps = (state: State): ScreenStateProps => {
+    return {
+        buttons: state.buttons,
+        direction: state.direction
+    };
+}; 
+
+export default connect(mapStateToProps)(Screen);
