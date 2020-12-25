@@ -4,11 +4,9 @@ import chunk from 'chunk';
 import cs from 'classnames';
 import './Screen.scss';
 import { RustGameboy, loadWasm } from '../../helpers/wasm';
-import { State } from '../../redux/state/state';
-import { ButtonState } from '../../redux/state/buttons';
-import { DirectionState } from '../../redux/state/direction';
+import { setRustGameboy } from '../../redux/actions/wasm';
 
-export type ScreenProps = ScreenOwnProps & ScreenStateProps;
+export type ScreenProps = ScreenOwnProps & ScreenDispatchProps; 
 
 interface ScreenOwnProps {
     className?: string,
@@ -18,9 +16,8 @@ interface ScreenOwnProps {
     pixelSize: number
 }
 
-interface ScreenStateProps {
-    buttons: ButtonState;
-    direction: DirectionState;
+interface ScreenDispatchProps {
+    setRustGameboy(rustGameboy: RustGameboy): void;
 }
 
 interface ScreenState {
@@ -37,9 +34,8 @@ class Screen extends React.Component<ScreenProps, ScreenState> {
 
     async componentDidMount() {
         const wasm = await loadWasm();
-        this.setState({
-          wasm
-        }, () => console.log('Loaded WASM'));
+        this.props.setRustGameboy(wasm);
+        console.log("Loaded WASM");
     }
 
     componentDidUpdate() {
@@ -100,7 +96,6 @@ class Screen extends React.Component<ScreenProps, ScreenState> {
         if (!this.canvas || !this.props.gameboy_pointer)
             return;
 
-        // const input = this.getInput();
         const frame = this.state.wasm.clock_frame(this.props.gameboy_pointer);
         const chunked = chunk(frame, 3);
         const ctx = this.canvas.getContext('2d');
@@ -147,11 +142,8 @@ class Screen extends React.Component<ScreenProps, ScreenState> {
     }
 }
 
-const mapStateToProps = (state: State): ScreenStateProps => {
-    return {
-        buttons: state.buttons,
-        direction: state.direction
-    };
-}; 
+const mapDispatchToProps = (dispatch: any) => ({
+    setRustGameboy: (rustGameboy: RustGameboy) => dispatch(setRustGameboy(rustGameboy))
+});
 
-export default connect(mapStateToProps)(Screen);
+export default connect(null, mapDispatchToProps)(Screen);
