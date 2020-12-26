@@ -129,20 +129,6 @@ class Screen extends React.Component<ScreenProps, ScreenState> {
     canAnimate = () => {
         return !!this.canvas && !!this.props.gameboy_pointer && !!this.props.rustGameboy.clock_frame;
     }
-
-    getInput() {
-        // const { buttons, direction } = this.props;
-        // let input = new this.state.wasm.Input();
-        // input.a = buttons.a;
-        // input.b = buttons.b;
-        // input.start = buttons.start;
-        // input.select = buttons.select;
-        // input.up = direction.up;
-        // input.down = direction.down;
-        // input.left = direction.left;
-        // input.right = direction.right;
-        // return input;
-    }
 }
 
 const mapStateToProps = (state: State): ScreenStateProps => {

@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import cs from 'classnames';
+import { getInput } from '../../../helpers/input';
 import { State } from '../../../redux/state/state';
 import { ButtonState } from '../../../redux/state/buttons';
 import { DirectionState } from '../../../redux/state/direction';
 import { setButtons } from '../../../redux/actions/buttons';
 import { setDirection } from '../../../redux/actions/direction';
+import { RustGameboy } from '../../../redux/state/rustGameboy';
 import AbButtons from '../AbButtons/AbButtons';
 import ControlButton from '../ControlButton/ControlButton';
 // @ts-ignore
@@ -26,7 +28,9 @@ export interface DesktopControlsOwnProps {
 
 export interface DesktopControlsStateProps {
     buttons: ButtonState,
-    direction: DirectionState
+    direction: DirectionState,
+    pointer: number,
+    rustGameboy: RustGameboy
 }
 
 export interface DesktopControlsDispatchProps {
@@ -92,14 +96,18 @@ const renderKeyboardHandlers = (props: DesktopControlsProps) => {
                             return;
                         
                         const updatedButtons = { ...props.buttons, [p]: true };
+                        const input = getInput(props.rustGameboy, updatedButtons, props.direction);
                         props.setButtons(updatedButtons);
+                        props.rustGameboy.update_controls(props.pointer, input);
                     } else {
                         const p: keyof DirectionState = (key as any);
                         if (props.direction[p])
                             return;
 
                         const updatedDirection = { ...props.direction, [p]: true };
+                        const input = getInput(props.rustGameboy, props.buttons, updatedDirection);
                         props.setDirection(updatedDirection);
+                        props.rustGameboy.update_controls(props.pointer, input);
                     }
                 }} 
             />
@@ -113,14 +121,18 @@ const renderKeyboardHandlers = (props: DesktopControlsProps) => {
                             return;
                         
                         const updatedButtons = { ...props.buttons, [p]: false };
+                        const input = getInput(props.rustGameboy, updatedButtons, props.direction);
                         props.setButtons(updatedButtons);
+                        props.rustGameboy.update_controls(props.pointer, input);
                     } else {
                         let p: keyof DirectionState = (key as any);
                         if (!props.direction[p])
                             return;
 
                         const updatedDirection = { ...props.direction, [p]: false };
+                        const input = getInput(props.rustGameboy, props.buttons, updatedDirection);
                         props.setDirection(updatedDirection);
+                        props.rustGameboy.update_controls(props.pointer, input);
                     }
                 }} 
             />
@@ -128,14 +140,16 @@ const renderKeyboardHandlers = (props: DesktopControlsProps) => {
     );
 };
 
-const mapStateToProps = (state: State) => {
+const mapStateToProps = (state: State): DesktopControlsStateProps => {
     return {
         buttons: state.buttons,
-        direction: state.direction
+        direction: state.direction,
+        pointer: state.gameboy.pointer,
+        rustGameboy: state.rustGameboy
     };
 }; 
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: any): DesktopControlsDispatchProps => ({
     setButtons: (buttons: ButtonState) => dispatch(setButtons(buttons)),
     setDirection: (direction: DirectionState) => dispatch(setDirection(direction))
 });
