@@ -1,4 +1,4 @@
-import { RustGameboy } from "../../helpers/wasm";
+import { RustGameboy } from "../state/rustGameboy";
 
 export const SET_RUST_GAMEBOY = Symbol('SET_RUST_GAMEBOY');
 

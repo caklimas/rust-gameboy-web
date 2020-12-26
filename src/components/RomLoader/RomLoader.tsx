@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 
 import './RomLoader.scss';
 import { loadRom } from '../../redux/actions/gameboy';
-import { RustGameboy , loadWasm } from '../../helpers/wasm';
+import { loadWasm } from '../../helpers/wasm';
 import { State } from '../../redux/state/state';
+import { RustGameboy } from '../../redux/state/rustGameboy';
 
 export type RomLoaderProps = RomLoaderStateProps & RomLoaderDispatchProps;
 export interface RomLoaderStateProps {

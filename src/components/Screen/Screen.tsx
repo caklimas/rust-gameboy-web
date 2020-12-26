@@ -3,10 +3,12 @@ import { connect } from 'react-redux';
 import chunk from 'chunk';
 import cs from 'classnames';
 import './Screen.scss';
-import { RustGameboy, loadWasm } from '../../helpers/wasm';
-import { setRustGameboy } from '../../redux/actions/wasm';
+import { loadWasm } from '../../helpers/wasm';
+import { setRustGameboy } from '../../redux/actions/rustGameboy';
+import { State } from '../../redux/state/state';
+import { RustGameboy } from '../../redux/state/rustGameboy';
 
-export type ScreenProps = ScreenOwnProps & ScreenDispatchProps; 
+export type ScreenProps = ScreenOwnProps & ScreenStateProps & ScreenDispatchProps; 
 
 interface ScreenOwnProps {
     className?: string,
@@ -16,12 +18,15 @@ interface ScreenOwnProps {
     pixelSize: number
 }
 
+interface ScreenStateProps {
+    rustGameboy: RustGameboy
+}
+
 interface ScreenDispatchProps {
     setRustGameboy(rustGameboy: RustGameboy): void;
 }
 
 interface ScreenState {
-    wasm: RustGameboy,
     width: number,
     height: number,
     bytesPerRow: number,
@@ -35,14 +40,8 @@ class Screen extends React.Component<ScreenProps, ScreenState> {
     async componentDidMount() {
         const wasm = await loadWasm();
         this.props.setRustGameboy(wasm);
+        this.animate();
         console.log("Loaded WASM");
-    }
-
-    componentDidUpdate() {
-        if (!!this.props.gameboy_pointer) {
-            console.log('Loaded ROM');
-            this.animate();
-        }
     }
 
     componentWillUnmount() {
@@ -60,7 +59,6 @@ class Screen extends React.Component<ScreenProps, ScreenState> {
         let bytesPerColumn = props.pixelSize * 4; 
         let bytesPerRow = bytesPerColumn * props.width;
         this.state = {
-            wasm: null,
             width: props.width * props.pixelSize,
             height: props.height * props.pixelSize,
             bytesPerRow,
@@ -93,10 +91,10 @@ class Screen extends React.Component<ScreenProps, ScreenState> {
     }
 
     updateCanvas = () => {
-        if (!this.canvas || !this.props.gameboy_pointer)
+        if (!this.canAnimate())
             return;
 
-        const frame = this.state.wasm.clock_frame(this.props.gameboy_pointer);
+        const frame = this.props.rustGameboy.clock_frame(this.props.gameboy_pointer);
         const chunked = chunk(frame, 3);
         const ctx = this.canvas.getContext('2d');
         const imageData = ctx.createImageData(this.state.width, this.state.height);
@@ -124,7 +122,12 @@ class Screen extends React.Component<ScreenProps, ScreenState> {
                 }
             }
         }
+
         ctx.putImageData(imageData, 0, 0);
+    }
+
+    canAnimate = () => {
+        return !!this.canvas && !!this.props.gameboy_pointer && !!this.props.rustGameboy.clock_frame;
     }
 
     getInput() {
@@ -142,8 +145,14 @@ class Screen extends React.Component<ScreenProps, ScreenState> {
     }
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapStateToProps = (state: State): ScreenStateProps => {
+    return {
+        rustGameboy: state.rustGameboy
+    };
+};
+
+const mapDispatchToProps = (dispatch: any): ScreenDispatchProps => ({
     setRustGameboy: (rustGameboy: RustGameboy) => dispatch(setRustGameboy(rustGameboy))
 });
 
-export default connect(null, mapDispatchToProps)(Screen);
+export default connect(mapStateToProps, mapDispatchToProps)(Screen);
