@@ -140,14 +140,12 @@ const renderKeyboardHandlers = (props: DesktopControlsProps) => {
     );
 };
 
-const mapStateToProps = (state: State): DesktopControlsStateProps => {
-    return {
-        buttons: state.buttons,
-        direction: state.direction,
-        pointer: state.gameboy.pointer,
-        rustGameboy: state.rustGameboy
-    };
-}; 
+const mapStateToProps = (state: State): DesktopControlsStateProps => ({
+    buttons: state.buttons,
+    direction: state.direction,
+    pointer: state.gameboy.pointer,
+    rustGameboy: state.rustGameboy
+}); 
 
 const mapDispatchToProps = (dispatch: any): DesktopControlsDispatchProps => ({
     setButtons: (buttons: ButtonState) => dispatch(setButtons(buttons)),
