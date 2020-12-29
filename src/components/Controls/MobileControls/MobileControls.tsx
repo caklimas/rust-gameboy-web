@@ -3,11 +3,25 @@ import React from 'react';
 import ReactNipple from 'react-nipple';
 import { connect } from 'react-redux';
 import './MobileControls.scss';
-import { setDirectionFromAngle, clearDirection } from '../../../redux/actions/direction';
 import AbButtons from '../AbButtons/AbButtons';
+import { getDirectionFromAngle } from '../../../helpers/direction';
+import { setDirection, clearDirection } from '../../../redux/actions/direction';
+import { DirectionState } from '../../../redux/state/direction';
+import { State } from '../../../redux/state/state';
+import { ButtonState } from '../../../redux/state/buttons';
+import { RustGameboy } from '../../../redux/state/rustGameboy';
+import { getInput } from '../../../helpers/input';
 
-export interface MobileControlsProps {
-    setDirectionFromAngle(angle: number): any;
+export type MobileControlsProps = MobileControlsStateProps & MobileControlsDispatchProps;
+
+export interface MobileControlsStateProps {
+    buttons: ButtonState,
+    pointer: number,
+    rustGameboy: RustGameboy
+}
+
+export interface MobileControlsDispatchProps {
+    setDirection(direction: DirectionState): any;
     clearDirection(): void;
 }
 
@@ -19,16 +33,29 @@ const MobileControls = (props: MobileControlsProps) => (
                 width: 150,
                 height: 150
             }}
-            onMove={(_evt: any, data: any) => setDirectionFromAngle(data.angle.degree)}
+            onMove={(_evt: any, data: any) => onMove(props, data.angle.degree)}
             onEnd={() => props.clearDirection()}
         />
         <AbButtons />
     </div>
 );
 
-const mapDispatchToProps = (dispatch: any) => ({
-    setDirectionFromAngle: (angle: number) => dispatch(setDirectionFromAngle(angle)),
+const onMove = (props: MobileControlsProps, angle: number) => {
+    const direction = getDirectionFromAngle(angle);
+    const input = getInput(props.rustGameboy, props.buttons, direction);
+    props.rustGameboy.update_controls(props.pointer, input);
+    props.setDirection(direction);
+};
+
+const mapStateToProps = (state: State): MobileControlsStateProps=> ({
+    buttons: state.buttons,
+    pointer: state.gameboy.pointer,
+    rustGameboy: state.rustGameboy
+});
+
+const mapDispatchToProps = (dispatch: any): MobileControlsDispatchProps => ({
+    setDirection: (direction: DirectionState) => dispatch(setDirection(direction)),
     clearDirection: () => dispatch(clearDirection())
 });
 
-export default connect(null, mapDispatchToProps)(MobileControls);
+export default connect(mapStateToProps, mapDispatchToProps)(MobileControls);

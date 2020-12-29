@@ -1,4 +1,3 @@
-// import Button from 'react-bootstrap/esm/Button';
 import { SET_BUTTONS } from '../actions/buttons';
 import { ButtonState, defaultState } from '../state/buttons';
 

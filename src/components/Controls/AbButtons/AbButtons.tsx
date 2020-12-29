@@ -1,16 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { getInput } from '../../../helpers/input';
 import { State } from '../../../redux/state/state';
 import { ButtonState } from '../../../redux/state/buttons';
 import { setButtons } from '../../../redux/actions/buttons';
-
+import { DirectionState } from '../../../redux/state/direction';
+import { RustGameboy } from '../../../redux/state/rustGameboy';
 import ControlButton from '../ControlButton/ControlButton';
 import './AbButtons.scss';
 
 export type AbButtonsProps = AbButtonsStateProps & AbButtonsDispatchProps;
 
 export interface AbButtonsStateProps {
-    buttons: ButtonState
+    buttons: ButtonState,
+    direction: DirectionState,
+    pointer: number,
+    rustGameboy: RustGameboy
 }
 
 export interface AbButtonsDispatchProps {
@@ -50,20 +55,25 @@ const handleTouch = (e: React.TouchEvent<HTMLElement>, props: AbButtonsProps, bu
     e.preventDefault();
 
     const updatedState = { ...props.buttons, [buttonKey]: pressed };
+    const input = getInput(props.rustGameboy, updatedState, props.direction);
     props.setButtons(updatedState);
+    props.rustGameboy.update_controls(props.pointer, input);
 
     if (pressed) {
         window.navigator.vibrate(10);
     }
 };
 
-const mapStateToProps = (state: State) => {
+const mapStateToProps = (state: State): AbButtonsStateProps => {
     return {
-        buttons: state.buttons
+        buttons: state.buttons,
+        direction: state.direction,
+        pointer: state.gameboy.pointer,
+        rustGameboy: state.rustGameboy
     };
 }; 
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: any): AbButtonsDispatchProps => ({
     setButtons: (buttons: ButtonState) => dispatch(setButtons(buttons))
 });
 

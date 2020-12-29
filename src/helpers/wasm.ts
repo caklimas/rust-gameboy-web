@@ -1,10 +1,6 @@
+import { RustGameboy } from "../redux/state/rustGameboy";
+
 let wasm: RustGameboy = null;
-
-export interface RustGameboy {
-    run(bytes: Uint8Array): number;
-    clock_frame(gameboy: number): Uint8Array;
-}
-
 export async function loadWasm(): Promise<RustGameboy> {
     if (!!wasm) {
         return wasm;
