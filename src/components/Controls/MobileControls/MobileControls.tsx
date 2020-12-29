@@ -10,6 +10,7 @@ import { DirectionState } from '../../../redux/state/direction';
 import { State } from '../../../redux/state/state';
 import { ButtonState } from '../../../redux/state/buttons';
 import { RustGameboy } from '../../../redux/state/rustGameboy';
+import { getInput } from '../../../helpers/input';
 
 export type MobileControlsProps = MobileControlsStateProps & MobileControlsDispatchProps;
 
@@ -41,6 +42,8 @@ const MobileControls = (props: MobileControlsProps) => (
 
 const onMove = (props: MobileControlsProps, angle: number) => {
     const direction = getDirectionFromAngle(angle);
+    const input = getInput(props.rustGameboy, props.buttons, direction);
+    props.rustGameboy.update_controls(props.pointer, input);
     props.setDirection(direction);
 };
 
