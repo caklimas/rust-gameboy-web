@@ -1,4 +1,3 @@
-import React from 'react';
 // @ts-ignore
 import ReactNipple from 'react-nipple';
 import { connect } from 'react-redux';
@@ -12,20 +11,20 @@ import { ButtonState } from '../../../redux/state/buttons';
 import { RustGameboy } from '../../../redux/state/rustGameboy';
 import { getInput } from '../../../helpers/input';
 
-export type MobileControlsProps = MobileControlsStateProps & MobileControlsDispatchProps;
+type Props = StateProps & DispatchProps;
 
-export interface MobileControlsStateProps {
+interface StateProps {
     buttons: ButtonState,
     pointer: number,
     rustGameboy: RustGameboy
 }
 
-export interface MobileControlsDispatchProps {
+interface DispatchProps {
     setDirection(direction: DirectionState): any;
     clearDirection(): void;
 }
 
-const MobileControls = (props: MobileControlsProps) => (
+const MobileControls = (props: Props) => (
     <div>
         <ReactNipple
             options={{ mode: 'static', position: { top: '50%', left: '50%' } }}
@@ -40,20 +39,20 @@ const MobileControls = (props: MobileControlsProps) => (
     </div>
 );
 
-const onMove = (props: MobileControlsProps, angle: number) => {
+const onMove = (props: Props, angle: number) => {
     const direction = getDirectionFromAngle(angle);
     const input = getInput(props.rustGameboy, props.buttons, direction);
     props.rustGameboy.update_controls(props.pointer, input);
     props.setDirection(direction);
 };
 
-const mapStateToProps = (state: State): MobileControlsStateProps=> ({
+const mapStateToProps = (state: State): StateProps=> ({
     buttons: state.buttons,
     pointer: state.gameboy.pointer,
     rustGameboy: state.rustGameboy
 });
 
-const mapDispatchToProps = (dispatch: any): MobileControlsDispatchProps => ({
+const mapDispatchToProps = (dispatch: any): DispatchProps => ({
     setDirection: (direction: DirectionState) => dispatch(setDirection(direction)),
     clearDirection: () => dispatch(clearDirection())
 });

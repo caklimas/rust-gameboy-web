@@ -8,9 +8,9 @@ import { setRustGameboy } from '../../redux/actions/rustGameboy';
 import { State } from '../../redux/state/state';
 import { RustGameboy } from '../../redux/state/rustGameboy';
 
-export type ScreenProps = ScreenOwnProps & ScreenStateProps & ScreenDispatchProps; 
+type Props = OwnProps & StateProps & DispatchProps; 
 
-interface ScreenOwnProps {
+interface OwnProps {
     className?: string,
     gameboy_pointer: number,
     width: number,
@@ -18,11 +18,11 @@ interface ScreenOwnProps {
     pixelSize: number
 }
 
-interface ScreenStateProps {
+interface StateProps {
     rustGameboy: RustGameboy
 }
 
-interface ScreenDispatchProps {
+interface DispatchProps {
     setRustGameboy(rustGameboy: RustGameboy): void;
 }
 
@@ -33,7 +33,7 @@ interface ScreenState {
     bytesPerColumn: number
 }
 
-class Screen extends React.Component<ScreenProps, ScreenState> {
+class Screen extends React.Component<Props, ScreenState> {
     private canvas: any;
     private request_id: number;
 
@@ -50,7 +50,7 @@ class Screen extends React.Component<ScreenProps, ScreenState> {
         }
     }
 
-    constructor(props: ScreenProps) {
+    constructor(props: Props) {
         super(props);
 
         this.canvas = null;
@@ -131,13 +131,13 @@ class Screen extends React.Component<ScreenProps, ScreenState> {
     }
 }
 
-const mapStateToProps = (state: State): ScreenStateProps => {
+const mapStateToProps = (state: State): StateProps => {
     return {
         rustGameboy: state.rustGameboy
     };
 };
 
-const mapDispatchToProps = (dispatch: any): ScreenDispatchProps => ({
+const mapDispatchToProps = (dispatch: any): DispatchProps => ({
     setRustGameboy: (rustGameboy: RustGameboy) => dispatch(setRustGameboy(rustGameboy))
 });
 

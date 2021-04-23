@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown';
 import { connect } from 'react-redux';
@@ -9,16 +9,17 @@ import { loadWasm } from '../../helpers/wasm';
 import { State } from '../../redux/state/state';
 import { RustGameboy } from '../../redux/state/rustGameboy';
 
-export type RomLoaderProps = RomLoaderStateProps & RomLoaderDispatchProps;
-export interface RomLoaderStateProps {
+type Props = StateProps & DispatchProps;
+
+interface StateProps {
     pointer: number;
 }
 
-export interface RomLoaderDispatchProps {
+interface DispatchProps {
     loadRom: (pointer: number) => any;
 }
 
-const RomLoader = (props: RomLoaderProps) => {
+const RomLoader = (props: Props) => {
     const [gameboy, setGameboy] = useState<RustGameboy>(null);
     useEffect(() => {
         const getGameboy = async () => {
@@ -56,7 +57,7 @@ const RomLoader = (props: RomLoaderProps) => {
 }
 
 const readFile = async (
-    props: RomLoaderProps,
+    props: Props,
     gameboy: RustGameboy, 
     fileName: string
 ) => {

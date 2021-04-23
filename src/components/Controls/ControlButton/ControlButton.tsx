@@ -1,13 +1,10 @@
-import React from 'react';
-// import { connect } from 'react-redux';
 import cs from 'classnames';
 import Button from 'react-bootstrap/Button';
-// import { State } from '../../../redux/state/state';
 import './ControlButton.scss';
 
-export type ButtonType = 'circle' | 'directional' | 'start-select';
+type ButtonType = 'circle' | 'directional' | 'start-select';
 
-export interface ControlButtonProps {
+interface Props {
     pressed: boolean;
     text: string;
     type: ButtonType;
@@ -17,7 +14,7 @@ export interface ControlButtonProps {
     onTouchCancel?: (e: React.TouchEvent<HTMLElement>) => void
 }
 
-const ControlButton = (props: ControlButtonProps) => {
+const ControlButton = (props: Props) => {
     return (
         <Button
             className={cs(getButtonClass(props.type), 'gameboy-controls-button')} 

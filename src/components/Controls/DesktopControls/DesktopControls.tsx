@@ -1,6 +1,7 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import cs from 'classnames';
+// @ts-ignore
+import KeyboardEventHandler from 'react-keyboard-event-handler';
 import { getInput } from '../../../helpers/input';
 import { State } from '../../../redux/state/state';
 import { ButtonState } from '../../../redux/state/buttons';
@@ -10,45 +11,44 @@ import { setDirection } from '../../../redux/actions/direction';
 import { RustGameboy } from '../../../redux/state/rustGameboy';
 import AbButtons from '../AbButtons/AbButtons';
 import ControlButton from '../ControlButton/ControlButton';
-// @ts-ignore
-import KeyboardEventHandler from 'react-keyboard-event-handler';
+import StartSelectButtons from '../StartSelectButtons/StartSelectButtons';
 
-const aKey = 'x';
-const bKey='z'
 const handleKeys = ['up', 'down', 'left', 'right', 'z', 'x', 'shift', 'enter'];
 const keyMapping = new Map();
-keyMapping.set(aKey, 'a');
-keyMapping.set(bKey, 'b');
+keyMapping.set('x', 'a');
+keyMapping.set('z', 'b');
+keyMapping.set('enter', 'start');
+keyMapping.set('shift', 'select');
 
-export type DesktopControlsProps = DesktopControlsOwnProps & DesktopControlsStateProps & DesktopControlsDispatchProps;
+type Props = OwnProps & StateProps & DispatchProps;
 
-export interface DesktopControlsOwnProps {
+interface OwnProps {
     className?: string;
 }
 
-export interface DesktopControlsStateProps {
+interface StateProps {
     buttons: ButtonState,
     direction: DirectionState,
     pointer: number,
     rustGameboy: RustGameboy
 }
 
-export interface DesktopControlsDispatchProps {
+interface DispatchProps {
     setButtons(buttons: ButtonState): void;
     setDirection(direction: DirectionState): void;
 }
 
-const DesktopControls = (props: DesktopControlsProps) => (
+const DesktopControls = (props: Props) => (
     <div className={cs(props.className, 'gameboy-controls')}>
-        {renderUpperControls(props.direction, props.buttons)}
-        {renderLowerControls()}
+        {renderUpperControls(props.direction)}
+        <StartSelectButtons />
         {renderKeyboardHandlers(props)}
     </div>
 );
 
-const renderUpperControls = (directionState: DirectionState, buttonState: ButtonState) => {
+const renderUpperControls = (directionState: DirectionState) => {
     return (
-        <div>
+        <>
             <div className='gameboy-directional-controls'>
                 <div className='gameboy-controls-up'>
                     <ControlButton pressed={directionState.up} text='↑' type='directional' />
@@ -64,26 +64,11 @@ const renderUpperControls = (directionState: DirectionState, buttonState: Button
                 </div>
             </div>
             <AbButtons />
-        </div>
+        </>
     );
 };
 
-const renderLowerControls = () => {
-    return (
-        <div>
-            <div className='gameboy-start-select-controls'>
-                <div className='gameboy-controls-start'>
-                    <ControlButton pressed={false} text='Start' type='start-select' />
-                </div>
-                <div className='gameboy-controls-select'>
-                    <ControlButton pressed={false} text='Select' type='start-select' />
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const renderKeyboardHandlers = (props: DesktopControlsProps) => {
+const renderKeyboardHandlers = (props: Props) => {
     return (
         <>
             <KeyboardEventHandler
@@ -140,14 +125,14 @@ const renderKeyboardHandlers = (props: DesktopControlsProps) => {
     );
 };
 
-const mapStateToProps = (state: State): DesktopControlsStateProps => ({
+const mapStateToProps = (state: State): StateProps => ({
     buttons: state.buttons,
     direction: state.direction,
     pointer: state.gameboy.pointer,
     rustGameboy: state.rustGameboy
 }); 
 
-const mapDispatchToProps = (dispatch: any): DesktopControlsDispatchProps => ({
+const mapDispatchToProps = (dispatch: any): DispatchProps => ({
     setButtons: (buttons: ButtonState) => dispatch(setButtons(buttons)),
     setDirection: (direction: DirectionState) => dispatch(setDirection(direction))
 });

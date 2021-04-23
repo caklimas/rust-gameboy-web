@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { getInput } from '../../../helpers/input';
 import { State } from '../../../redux/state/state';
@@ -9,22 +8,22 @@ import { RustGameboy } from '../../../redux/state/rustGameboy';
 import ControlButton from '../ControlButton/ControlButton';
 import './AbButtons.scss';
 
-export type AbButtonsProps = AbButtonsStateProps & AbButtonsDispatchProps;
+export type Props = StateProps & DispatchProps;
 
-export interface AbButtonsStateProps {
+export interface StateProps {
     buttons: ButtonState,
     direction: DirectionState,
     pointer: number,
     rustGameboy: RustGameboy
 }
 
-export interface AbButtonsDispatchProps {
+export interface DispatchProps {
     setButtons(buttons: ButtonState): void;
 }
 
 type ButtonKey = 'a' | 'b';
 
-const AbButtons = (props: AbButtonsProps) => {
+const AbButtons = (props: Props) => {
     return (
         <div className='gameboy-a-b-controls'>
             <div className='gameboy-controls-a'>
@@ -51,7 +50,7 @@ const AbButtons = (props: AbButtonsProps) => {
     );
 };
 
-const handleTouch = (e: React.TouchEvent<HTMLElement>, props: AbButtonsProps, buttonKey: ButtonKey, pressed: boolean) => {
+const handleTouch = (e: React.TouchEvent<HTMLElement>, props: Props, buttonKey: ButtonKey, pressed: boolean) => {
     e.preventDefault();
 
     const updatedState = { ...props.buttons, [buttonKey]: pressed };
@@ -64,7 +63,7 @@ const handleTouch = (e: React.TouchEvent<HTMLElement>, props: AbButtonsProps, bu
     }
 };
 
-const mapStateToProps = (state: State): AbButtonsStateProps => {
+const mapStateToProps = (state: State): StateProps => {
     return {
         buttons: state.buttons,
         direction: state.direction,
@@ -73,7 +72,7 @@ const mapStateToProps = (state: State): AbButtonsStateProps => {
     };
 }; 
 
-const mapDispatchToProps = (dispatch: any): AbButtonsDispatchProps => ({
+const mapDispatchToProps = (dispatch: any): DispatchProps => ({
     setButtons: (buttons: ButtonState) => dispatch(setButtons(buttons))
 });
 

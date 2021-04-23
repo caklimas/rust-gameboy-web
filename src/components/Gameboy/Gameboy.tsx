@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 
@@ -9,11 +8,11 @@ import { State } from '../../redux/state/state';
 import Screen from '../Screen/Screen';
 import Controls from '../Controls/Controls';
 
-export interface GameboyProps {
+export interface Props {
     pointer: number
 };
 
-const Gameboy = (props: GameboyProps) => {
+const Gameboy = (props: Props) => {
     const isMobile = useMediaQuery(mobileMediaQuery);
     const pixelSize = isMobile ? 1 : 3;
     if (!props.pointer)
