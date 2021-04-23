@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import chunk from 'chunk';
-import cs from 'classnames';
-import './Screen.scss';
 import { loadWasm } from '../../helpers/wasm';
 import { setRustGameboy } from '../../redux/actions/rustGameboy';
 import { State } from '../../redux/state/state';
 import { RustGameboy } from '../../redux/state/rustGameboy';
+import { mediaMinMd } from '../../constants/screenSizes';
 
 type Props = OwnProps & StateProps & DispatchProps; 
 
@@ -32,6 +32,21 @@ interface ScreenState {
     bytesPerRow: number,
     bytesPerColumn: number
 }
+
+const GameboyScreenFlex = styled.div`
+    display: flex;
+    justify-content: center; 
+`;
+
+const StyledCanvas = styled.canvas`
+    border: 1px solid #000000;
+    margin: 20px 20px 0px;
+    width: 320px;
+
+    @media only screen and (min-width: ${mediaMinMd}px) {
+        width: 500px;
+    }
+`;
 
 class Screen extends React.Component<Props, ScreenState> {
     private canvas: any;
@@ -68,14 +83,13 @@ class Screen extends React.Component<Props, ScreenState> {
 
     render() {
         return (
-            <div className='gameboy-screen-flex'>
-                <canvas
-                    className={cs(this.props.className, 'gameboy-screen')}
+            <GameboyScreenFlex>
+                <StyledCanvas
                     ref={this.setCanvasRef}
                     width={this.props.width * this.props.pixelSize}
                     height={this.props.height * this.props.pixelSize} 
                 />
-            </div>
+            </GameboyScreenFlex>
         );
     }
 

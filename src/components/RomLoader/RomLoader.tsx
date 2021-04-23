@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown';
 import { connect } from 'react-redux';
 
-import './RomLoader.scss';
 import { loadRom } from '../../redux/actions/gameboy';
 import { loadWasm } from '../../helpers/wasm';
 import { State } from '../../redux/state/state';
@@ -18,6 +18,10 @@ interface StateProps {
 interface DispatchProps {
     loadRom: (pointer: number) => any;
 }
+
+const StyledDropdownButton = styled(DropdownButton)`
+    margin-top: 20px;
+`;
 
 const RomLoader = (props: Props) => {
     const [gameboy, setGameboy] = useState<RustGameboy>(null);
@@ -34,8 +38,7 @@ const RomLoader = (props: Props) => {
         return null
 
     return (
-        <DropdownButton 
-            className='gameboy-rom-loader'
+        <StyledDropdownButton 
             variant='secondary'
             id="dropdown-basic-button"
             title="Select ROM to play"
@@ -52,7 +55,7 @@ const RomLoader = (props: Props) => {
             <Dropdown.Item onClick={async () => await readFile(props, gameboy, 'Tetris.gb')}>
                 Tetris
             </Dropdown.Item>
-        </DropdownButton>
+        </StyledDropdownButton>
     );
 }
 

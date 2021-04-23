@@ -1,7 +1,7 @@
 // @ts-ignore
 import ReactNipple from 'react-nipple';
 import { connect } from 'react-redux';
-import './MobileControls.scss';
+import styled from 'styled-components';
 import AbButtons from '../AbButtons/AbButtons';
 import { getDirectionFromAngle } from '../../../helpers/direction';
 import { setDirection, clearDirection } from '../../../redux/actions/direction';
@@ -25,9 +25,14 @@ interface DispatchProps {
     clearDirection(): void;
 }
 
+const StyledControls = styled(ReactNipple)`
+    display: inline-block;
+    position: relative;
+`;
+
 const MobileControls = (props: Props) => (
     <div>
-        <ReactNipple
+        <StyledControls
             options={{ mode: 'static', position: { top: '50%', left: '50%' } }}
             style={{
                 width: 150,

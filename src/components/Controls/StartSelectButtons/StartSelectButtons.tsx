@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import './StartSelectButtons.scss';
+import styled from 'styled-components';
 import ControlButton from "../ControlButton/ControlButton";
 import { ButtonState } from '../../../redux/state/buttons';
 import { State } from '../../../redux/state/state';
@@ -7,6 +7,7 @@ import { getInput } from '../../../helpers/input';
 import { RustGameboy } from '../../../redux/state/rustGameboy';
 import { setButtons } from '../../../redux/actions/buttons';
 import { DirectionState } from '../../../redux/state/direction';
+import { mediaMinMd } from '../../../constants/screenSizes';
 
 type Props = StateProps & DispatchProps;
 
@@ -23,10 +24,32 @@ interface DispatchProps {
 
 type ButtonKey = 'start' | 'select';
 
+const StyledStartSelectControls = styled.div`
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(2, 75px);
+    justify-content: center;
+    margin-top: -55px;
+
+    @media only screen and (min-width: ${mediaMinMd}px) {
+        margin-top: 35px;
+    }
+`;
+
+const StyledStartControls = styled.div`
+    grid-column: 1;
+    grid-row: 1;
+`;
+
+const StyledSelectControls = styled.div`
+    grid-column: 2;
+    grid-row: 1;
+`;
+
 const StartSelectButtons = (props: Props) => {
     return (
-        <div className='gameboy-start-select-controls'>
-            <div className='gameboy-controls-start'>
+        <StyledStartSelectControls>
+            <StyledStartControls className='gameboy-controls-start'>
                 <ControlButton
                     pressed={props.buttons.start}
                     text='Start'
@@ -35,8 +58,8 @@ const StartSelectButtons = (props: Props) => {
                     onTouchEnd={e => handleTouch(e, props, 'start', false)}
                     onTouchCancel={e => handleTouch(e, props, 'start', false)}
                 />
-            </div>
-            <div className='gameboy-controls-select'>
+            </StyledStartControls>
+            <StyledSelectControls className='gameboy-controls-select'>
                 <ControlButton
                     pressed={props.buttons.select}
                     text='Select'
@@ -45,8 +68,8 @@ const StartSelectButtons = (props: Props) => {
                     onTouchEnd={e => handleTouch(e, props, 'select', false)}
                     onTouchCancel={e => handleTouch(e, props, 'select', false)}
                 />
-            </div>
-        </div>
+            </StyledSelectControls>
+        </StyledStartSelectControls>
     );
 }
 
