@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import { getInput } from '../../../helpers/input';
 import { State } from '../../../redux/state/state';
 import { ButtonState } from '../../../redux/state/buttons';
@@ -6,7 +7,7 @@ import { setButtons } from '../../../redux/actions/buttons';
 import { DirectionState } from '../../../redux/state/direction';
 import { RustGameboy } from '../../../redux/state/rustGameboy';
 import ControlButton from '../ControlButton/ControlButton';
-import './AbButtons.scss';
+import { mediaMinMd } from '../../../constants/screenSizes';
 
 type Props = StateProps & DispatchProps;
 
@@ -23,10 +24,34 @@ interface DispatchProps {
 
 type ButtonKey = 'a' | 'b';
 
+const StyledAbControls = styled.div`
+    bottom: 90px;
+    display: inline-grid;
+    grid-template-columns: repeat(2, 50px);
+    left: 75px;
+    position: relative;
+
+    @media only screen and (min-width: ${mediaMinMd}px) {
+        bottom: 0;
+        position: static;
+        left: 0;
+    }
+`;
+
+const StyledAControls = styled.div`
+    grid-column: 2;
+    grid-row: 1;
+`;
+
+const StyledBControls = styled.div`
+    grid-column: 1;
+    grid-row: 2;
+`;
+
 const AbButtons = (props: Props) => {
     return (
-        <div className='gameboy-a-b-controls'>
-            <div className='gameboy-controls-a'>
+        <StyledAbControls>
+            <StyledAControls>
                 <ControlButton 
                     pressed={props.buttons.a}
                     text='A'
@@ -35,8 +60,8 @@ const AbButtons = (props: Props) => {
                     onTouchEnd={e => handleTouch(e, props, 'a', false)}
                     onTouchCancel={e => handleTouch(e, props, 'a', false)}
                 />
-            </div>
-            <div className='gameboy-controls-b'>
+            </StyledAControls>
+            <StyledBControls>
                 <ControlButton
                     pressed={props.buttons.b} 
                     text='B' 
@@ -45,8 +70,8 @@ const AbButtons = (props: Props) => {
                     onTouchEnd={e => handleTouch(e, props, 'b', false)}
                     onTouchCancel={e => handleTouch(e, props, 'b', false)}
                 />
-            </div>
-        </div>
+            </StyledBControls>
+        </StyledAbControls>
     );
 };
 

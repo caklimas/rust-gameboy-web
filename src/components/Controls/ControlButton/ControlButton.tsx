@@ -1,8 +1,26 @@
-import cs from 'classnames';
+import styled from 'styled-components';
 import Button from 'react-bootstrap/Button';
-import './ControlButton.scss';
 
 type ButtonType = 'circle' | 'directional' | 'start-select';
+
+const StyledButton = styled(Button)`
+    font-size: 15px;
+    touch-action: none;
+`;
+
+const CircleButton = styled(StyledButton)`
+    border-radius: 50%;
+    width: 38px;
+`;
+
+const DirectionalButton = styled(StyledButton)`
+    width: 60px;
+`;
+
+const StartSelectButton = styled(StyledButton)`
+    font-size: 1rem;
+    width: 75px;
+`;
 
 interface Props {
     pressed: boolean;
@@ -14,35 +32,42 @@ interface Props {
     onTouchCancel?: (e: React.TouchEvent<HTMLElement>) => void
 }
 
-const ControlButton = (props: Props) => {
+const ControlButton = ({
+    type,
+    pressed,
+    text,
+    onTouchStart,
+    onTouchEnd,
+    onTouchCancel
+}: Props) => {
+    const getVariant = (pressed: boolean): string => (
+        pressed ? 'primary' : 'secondary'   
+    );
+
+    const getButtonComponent = () => {
+        switch (type) {
+            case "circle":
+                return CircleButton;
+            case "directional":
+                return DirectionalButton;
+            case "start-select":
+                return StartSelectButton;
+            default:
+                throw new Error(`Invalid button type ${type}`);
+        };
+    };
+
+    const ButtonComponent = getButtonComponent();
     return (
-        <Button
-            className={cs(getButtonClass(props.type), 'gameboy-controls-button')} 
-            variant={getVariant(props.pressed)}
-            onTouchStart={props.onTouchStart}
-            onTouchEnd={props.onTouchEnd}
-            onTouchCancel={props.onTouchCancel}
+        <ButtonComponent
+            variant={getVariant(pressed)}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+            onTouchCancel={onTouchCancel}
         >
-            {props.text}
-        </Button>
+            {text}
+        </ButtonComponent>
     );
 };
-
-const getButtonClass = (type: ButtonType): string => {
-    switch (type) {
-        case "circle":
-            return "gameboy-controls-button-circle";
-        case "directional":
-            return "gameboy-controls-button-directional";
-        case "start-select":
-            return "gameboy-controls-button-start-select";
-        default:
-            throw new Error(`Invalid button type ${type}`);
-    };
-};
-
-const getVariant = (pressed: boolean): string => (
-    pressed ? 'primary' : 'secondary'   
-);
 
 export default ControlButton;
