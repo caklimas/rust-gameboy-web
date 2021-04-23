@@ -1,5 +1,4 @@
 import { useMediaQuery } from 'react-responsive';
-import './Controls.scss';
 import { mobileMediaQuery } from '../../helpers/mediaQueries';
 import MobileControls from './MobileControls/MobileControls';
 import DesktopControls from './DesktopControls/DesktopControls';

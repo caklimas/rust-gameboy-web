@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import cs from 'classnames';
 // @ts-ignore
 import KeyboardEventHandler from 'react-keyboard-event-handler';
+import './DesktopControls.scss';
 import { getInput } from '../../../helpers/input';
 import { State } from '../../../redux/state/state';
 import { ButtonState } from '../../../redux/state/buttons';

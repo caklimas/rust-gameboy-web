@@ -10,6 +10,7 @@ import { State } from '../../../redux/state/state';
 import { ButtonState } from '../../../redux/state/buttons';
 import { RustGameboy } from '../../../redux/state/rustGameboy';
 import { getInput } from '../../../helpers/input';
+import StartSelectButtons from '../StartSelectButtons/StartSelectButtons';
 
 type Props = StateProps & DispatchProps;
 
@@ -36,6 +37,7 @@ const MobileControls = (props: Props) => (
             onEnd={() => props.clearDirection()}
         />
         <AbButtons />
+        <StartSelectButtons />
     </div>
 );
 

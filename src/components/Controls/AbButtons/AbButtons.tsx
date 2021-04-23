@@ -8,16 +8,16 @@ import { RustGameboy } from '../../../redux/state/rustGameboy';
 import ControlButton from '../ControlButton/ControlButton';
 import './AbButtons.scss';
 
-export type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps;
 
-export interface StateProps {
+interface StateProps {
     buttons: ButtonState,
     direction: DirectionState,
     pointer: number,
     rustGameboy: RustGameboy
 }
 
-export interface DispatchProps {
+interface DispatchProps {
     setButtons(buttons: ButtonState): void;
 }
 
