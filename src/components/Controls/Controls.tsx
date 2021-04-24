@@ -12,7 +12,7 @@ const Controls = (props: Props) => {
     return isMobile ? (
         <MobileControls />
     ) : (
-        <DesktopControls className={props.className} />
+        <DesktopControls />
     );
 };
 
