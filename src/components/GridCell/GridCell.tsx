@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import styled from 'styled-components';
 
 interface Props {
     children?: ReactNode;
@@ -12,15 +11,10 @@ const GridCell = ({
     column,
     row
 }: Props) => {
-    const StyledGridCell = styled.div`
-        grid-column: ${column};
-        grid-row: ${row};
-    `;
-
     return (
-        <StyledGridCell>
+        <div style={{ gridColumn: column, gridRow: row }}>
             {children}
-        </StyledGridCell>
+        </div>
     );
 };
 

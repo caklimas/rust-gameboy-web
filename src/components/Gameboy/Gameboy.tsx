@@ -30,10 +30,6 @@ const StyledGameboy = styled.div`
     }
 `;
 
-const StyledControls = styled.div`
-    margin: 20px 20px 0px;
-`;
-
 const Gameboy = (props: Props) => {
     const isMobile = useMediaQuery(mobileMediaQuery);
     const pixelSize = isMobile ? 1 : 3;
@@ -48,9 +44,7 @@ const Gameboy = (props: Props) => {
                 pixelSize={pixelSize}
                 gameboy_pointer={props.pointer}
             />
-            <StyledControls>
-                <Controls />
-            </StyledControls>
+            <Controls />
         </StyledGameboy>
     );
 };
