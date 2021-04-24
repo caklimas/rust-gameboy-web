@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
-import cs from 'classnames';
+import styled from 'styled-components';
 // @ts-ignore
 import KeyboardEventHandler from 'react-keyboard-event-handler';
-import './DesktopControls.scss';
 import { getInput } from '../../../helpers/input';
 import { State } from '../../../redux/state/state';
 import { ButtonState } from '../../../redux/state/buttons';
@@ -13,6 +12,7 @@ import { RustGameboy } from '../../../redux/state/rustGameboy';
 import AbButtons from '../AbButtons/AbButtons';
 import ControlButton from '../ControlButton/ControlButton';
 import StartSelectButtons from '../StartSelectButtons/StartSelectButtons';
+import GridCell from '../../GridCell/GridCell';
 
 const handleKeys = ['up', 'down', 'left', 'right', 'z', 'x', 'shift', 'enter'];
 const keyMapping = new Map();
@@ -21,11 +21,7 @@ keyMapping.set('z', 'b');
 keyMapping.set('enter', 'start');
 keyMapping.set('shift', 'select');
 
-type Props = OwnProps & StateProps & DispatchProps;
-
-interface OwnProps {
-    className?: string;
-}
+type Props = StateProps & DispatchProps;
 
 interface StateProps {
     buttons: ButtonState,
@@ -39,31 +35,41 @@ interface DispatchProps {
     setDirection(direction: DirectionState): void;
 }
 
+const StyledDesktopControls = styled.div`
+    margin: 20px 20px 0;
+`;
+
+const StyledDirectionalControls = styled.div`
+    display: inline-grid;
+    grid-template-columns: repeat(3, 60px);
+    margin-right: 195px;
+`;
+
 const DesktopControls = (props: Props) => (
-    <div className={cs(props.className, 'gameboy-controls')}>
+    <StyledDesktopControls>
         {renderUpperControls(props.direction)}
         <StartSelectButtons />
         {renderKeyboardHandlers(props)}
-    </div>
+    </StyledDesktopControls>
 );
 
 const renderUpperControls = (directionState: DirectionState) => {
     return (
         <>
-            <div className='gameboy-directional-controls'>
-                <div className='gameboy-controls-up'>
+            <StyledDirectionalControls>
+                <GridCell column={2} row={1}>
                     <ControlButton pressed={directionState.up} text='↑' type='directional' />
-                </div>
-                <div className='gameboy-controls-down'>
+                </GridCell>
+                <GridCell column={2} row={3}>
                     <ControlButton pressed={directionState.down} text='↓' type='directional' />
-                </div>
-                <div className='gameboy-controls-left'>
+                </GridCell>
+                <GridCell column={1} row={2}>
                     <ControlButton pressed={directionState.left} text='←' type='directional' />
-                </div>
-                <div className='gameboy-controls-right'>
+                </GridCell>
+                <GridCell column={3} row={2}>
                     <ControlButton pressed={directionState.right} text='→' type='directional' />
-                </div>
-            </div>
+                </GridCell>
+            </StyledDirectionalControls>
             <AbButtons />
         </>
     );

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import AbButtons from '../AbButtons/AbButtons';
 import { getDirectionFromAngle } from '../../../helpers/direction';
 import { setDirection, clearDirection } from '../../../redux/actions/direction';
-import { DirectionState } from '../../../redux/state/direction';
+import { defaultState as defaultDirectionState, DirectionState } from '../../../redux/state/direction';
 import { State } from '../../../redux/state/state';
 import { ButtonState } from '../../../redux/state/buttons';
 import { RustGameboy } from '../../../redux/state/rustGameboy';
@@ -39,7 +39,7 @@ const MobileControls = (props: Props) => (
                 height: 150
             }}
             onMove={(_evt: any, data: any) => onMove(props, data.angle.degree)}
-            onEnd={() => props.clearDirection()}
+            onEnd={() => onEnd(props)}
         />
         <AbButtons />
         <StartSelectButtons />
@@ -51,6 +51,12 @@ const onMove = (props: Props, angle: number) => {
     const input = getInput(props.rustGameboy, props.buttons, direction);
     props.rustGameboy.update_controls(props.pointer, input);
     props.setDirection(direction);
+};
+
+const onEnd = (props: Props) => {
+    const input = getInput(props.rustGameboy, props.buttons, defaultDirectionState);
+    props.rustGameboy.update_controls(props.pointer, input);
+    props.clearDirection();
 };
 
 const mapStateToProps = (state: State): StateProps=> ({
