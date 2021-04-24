@@ -8,6 +8,7 @@ import { RustGameboy } from '../../../redux/state/rustGameboy';
 import { setButtons } from '../../../redux/actions/buttons';
 import { DirectionState } from '../../../redux/state/direction';
 import { mediaMinMd } from '../../../constants/screenSizes';
+import GridCell from '../../GridCell/GridCell';
 
 type Props = StateProps & DispatchProps;
 
@@ -36,20 +37,10 @@ const StyledStartSelectControls = styled.div`
     }
 `;
 
-const StyledStartControls = styled.div`
-    grid-column: 1;
-    grid-row: 1;
-`;
-
-const StyledSelectControls = styled.div`
-    grid-column: 2;
-    grid-row: 1;
-`;
-
 const StartSelectButtons = (props: Props) => {
     return (
         <StyledStartSelectControls>
-            <StyledStartControls className='gameboy-controls-start'>
+            <GridCell column={1} row={1}>
                 <ControlButton
                     pressed={props.buttons.start}
                     text='Start'
@@ -58,8 +49,8 @@ const StartSelectButtons = (props: Props) => {
                     onTouchEnd={e => handleTouch(e, props, 'start', false)}
                     onTouchCancel={e => handleTouch(e, props, 'start', false)}
                 />
-            </StyledStartControls>
-            <StyledSelectControls className='gameboy-controls-select'>
+            </GridCell>
+            <GridCell column={2} row={1}>
                 <ControlButton
                     pressed={props.buttons.select}
                     text='Select'
@@ -68,7 +59,7 @@ const StartSelectButtons = (props: Props) => {
                     onTouchEnd={e => handleTouch(e, props, 'select', false)}
                     onTouchCancel={e => handleTouch(e, props, 'select', false)}
                 />
-            </StyledSelectControls>
+            </GridCell>
         </StyledStartSelectControls>
     );
 }

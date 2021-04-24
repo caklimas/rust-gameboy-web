@@ -35,10 +35,6 @@ interface DispatchProps {
     setDirection(direction: DirectionState): void;
 }
 
-const StyledGameboyControls = styled.div`
-    margin-top: 20px;
-`;
-
 const StyledDirectionalControls = styled.div`
     display: inline-grid;
     grid-template-columns: repeat(3, 60px);
@@ -46,11 +42,11 @@ const StyledDirectionalControls = styled.div`
 `;
 
 const DesktopControls = (props: Props) => (
-    <StyledGameboyControls>
+    <div>
         {renderUpperControls(props.direction)}
         <StartSelectButtons />
         {renderKeyboardHandlers(props)}
-    </StyledGameboyControls>
+    </div>
 );
 
 const renderUpperControls = (directionState: DirectionState) => {

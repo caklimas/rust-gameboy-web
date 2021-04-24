@@ -8,6 +8,8 @@ import { DirectionState } from '../../../redux/state/direction';
 import { RustGameboy } from '../../../redux/state/rustGameboy';
 import ControlButton from '../ControlButton/ControlButton';
 import { mediaMinMd } from '../../../constants/screenSizes';
+import React from 'react';
+import GridCell from '../../GridCell/GridCell';
 
 type Props = StateProps & DispatchProps;
 
@@ -38,20 +40,10 @@ const StyledAbControls = styled.div`
     }
 `;
 
-const StyledAControls = styled.div`
-    grid-column: 2;
-    grid-row: 1;
-`;
-
-const StyledBControls = styled.div`
-    grid-column: 1;
-    grid-row: 2;
-`;
-
 const AbButtons = (props: Props) => {
     return (
         <StyledAbControls>
-            <StyledAControls>
+            <GridCell column={2} row={1}>
                 <ControlButton 
                     pressed={props.buttons.a}
                     text='A'
@@ -60,8 +52,8 @@ const AbButtons = (props: Props) => {
                     onTouchEnd={e => handleTouch(e, props, 'a', false)}
                     onTouchCancel={e => handleTouch(e, props, 'a', false)}
                 />
-            </StyledAControls>
-            <StyledBControls>
+            </GridCell>
+            <GridCell column={1} row={2}>
                 <ControlButton
                     pressed={props.buttons.b} 
                     text='B' 
@@ -70,7 +62,7 @@ const AbButtons = (props: Props) => {
                     onTouchEnd={e => handleTouch(e, props, 'b', false)}
                     onTouchCancel={e => handleTouch(e, props, 'b', false)}
                 />
-            </StyledBControls>
+            </GridCell>
         </StyledAbControls>
     );
 };

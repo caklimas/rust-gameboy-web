@@ -30,7 +30,7 @@ const StyledGameboy = styled.div`
     }
 `;
 
-const StyledControls = styled(Controls)`
+const StyledControls = styled.div`
     margin: 20px 20px 0px;
 `;
 
@@ -48,7 +48,9 @@ const Gameboy = (props: Props) => {
                 pixelSize={pixelSize}
                 gameboy_pointer={props.pointer}
             />
-            <StyledControls />
+            <StyledControls>
+                <Controls />
+            </StyledControls>
         </StyledGameboy>
     );
 };
