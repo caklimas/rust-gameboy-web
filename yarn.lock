@@ -3284,10 +3284,10 @@ cache-base@^1.0.1:
     union-value "^1.0.0"
     unset-value "^1.0.0"
 
-caklimas-rust-gameboy@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/caklimas-rust-gameboy/-/caklimas-rust-gameboy-0.3.1.tgz#8a85c3c0808033b7124879302d239abf5025a3dd"
-  integrity sha512-ykvpLWlb5ABA4j7UBj4ITn3MUyzsjBpiJhL2lF4LhxOvbQoaPoQ0eLE3Wec+YYHx6phv0KoYucziAGLUIPcnHw==
+caklimas-rust-gameboy@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/caklimas-rust-gameboy/-/caklimas-rust-gameboy-0.3.2.tgz#5b51b435197d24c65bd5c3b154c61d9433b5a3ac"
+  integrity sha512-zC1qzy1REUg+g2zxX0P3WSvTwaF1jIWU/s3+ugxntwRn/8TcrOocqw/I/LS5rpTVzvI+qMcEcnZGiVyvB+JLRQ==
 
 call-bind@^1.0.0, call-bind@^1.0.2:
   version "1.0.2"

@@ -55,6 +55,12 @@ const RomLoader = (props: Props) => {
             <Dropdown.Item onClick={async () => await readFile(props, gameboy, 'Tetris.gb')}>
                 Tetris
             </Dropdown.Item>
+            <Dropdown.Item onClick={async () => await readFile(props, gameboy, "Kirby's Dream Land.gb")}>
+                Kirby's Dream Land
+            </Dropdown.Item>
+            <Dropdown.Item onClick={async () => await readFile(props, gameboy, 'Zelda.gb')}>
+                The Legend of Zelda Link's Awakening
+            </Dropdown.Item>
         </StyledDropdownButton>
     );
 }
